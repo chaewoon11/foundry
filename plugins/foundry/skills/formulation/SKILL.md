@@ -1,6 +1,6 @@
 ---
 name: formulation
-description: foundry stage 0c — set the frame of the calculation with the user: which equations are implemented, which quantity each gives, and how they chain from input to output. Rough shape only, no detailed derivations. Writes foundry/<code>/formulation.md and discusses it in chat. Run by the orchestrator.
+description: foundry stage 0c — set the frame of the calculation with the user: which equations are implemented, which quantity each gives, how they chain from input to output, and the pseudocode of the whole calculation. Rough shape only, no detailed derivations. Writes foundry/<code>/formulation.md and discusses it in chat. Run by the orchestrator.
 argument-hint: "<code>"
 disable-model-invocation: true
 ---
@@ -18,6 +18,7 @@ Purpose: shape the calculation the way a potter first shapes the clay — the ov
   - the equation that gives it, in its usual form (LaTeX), with the source it comes from;
   - what it needs (input or earlier steps) and what uses it;
   - for existing code: **existing** or **new**.
+- **Pseudocode** of the whole calculation, from input to output: 10–20 lines, loops and steps as they will run (e.g. "for each k point: build H(k); diagonalise"), each line tagged with its step number and, for existing code, existing / new. No language, libraries, data structures or performance tricks — that is the developer's choice in stage 3.
 - **Approximations**, each named in one line with the reason. They are proposals here; the user confirms them in 0d.
 - **What is left out** on purpose, in one line each.
 
@@ -25,7 +26,7 @@ A good frame fits on one screen: typically 3–8 steps.
 
 ## How
 1. Draft `foundry/<code>/formulation.md` (below) from `goal.md` and `literature-review.md`.
-2. **Discuss in chat**: walk through the chain once from input to output, then ask whether a step is missing, unnecessary, or in the wrong order, and whether the approximations match the user's intent. Update the file as the discussion goes.
+2. **Discuss in chat**: walk through the chain once from input to output, then through the pseudocode, then ask whether a step is missing, unnecessary, or in the wrong order, and whether the approximations match the user's intent. Update the file as the discussion goes.
 3. Do not go into derivations, numerical methods or code. If the discussion drifts there, note the point for 0d (derivations) or stage 1 (numerical method) and come back to the frame.
 4. When the user agrees with the frame, 0c ends. Commit and move on to 0d (`theory-check`).
 
@@ -40,6 +41,15 @@ A good frame fits on one screen: typically 3–8 steps.
 | # | Quantity | Equation | From | Needs | Used by | Existing / new |
 |---|---|---|---|---|---|---|
 | 1 | | \( … \) | [source] | input | 2 | |
+
+## Pseudocode
+```text
+read input                                  # step —
+for each <loop variable>:                   # step 2, new
+    <quantity> = <step 2 equation>(...)
+...
+write output                                # step —
+```
 
 ## Approximations (to confirm in 0d)
 - <approximation> — <why>

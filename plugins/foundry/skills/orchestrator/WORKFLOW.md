@@ -15,7 +15,7 @@ This is the workflow map in words. Keep it identical to the map (`workflow-map.h
 |---|---|---|---|---|
 | 0a Goal | `goal` | orchestrator + user, chat | `goal.md`: starting point (new / existing code + path), input, output, method in words | user agrees |
 | 0b Literature review | `literature` | orchestrator + user, chat | `literature-review.md` from papers the user put in `literature/`, read to achieve the goal: physical meaning, how others did this calculation, what we take, results to compare with | user agrees |
-| 0c Formulation | `formulation` | orchestrator + user, chat | `formulation.md`: which equations, which quantity each gives, how they chain from input to output (rough shape) | user agrees |
+| 0c Formulation | `formulation` | orchestrator + user, chat | `formulation.md`: which equations, which quantity each gives, how they chain from input to output, pseudocode of the whole calculation (rough shape) | user agrees |
 | 0d Rigorous check | `theory-check` | orchestrator derives; 🤖 `theory-checker` re-derives independently; equation-centred briefing (artifact, LaTeX) | `theory/claims.md` (numbered equations), `theory/derivation.md`, `theory/checks/` | `theory/REVIEW.md` approved |
 | 0e Features | `features` | orchestrator + user, chat | `roadmap.md`: features, order, dependencies, verification level each | user agrees |
 
