@@ -13,7 +13,7 @@ This is the workflow map in words. Keep it identical to the map (`workflow-map.h
 
 | Stage | Skill | Who | Produces | Done when |
 |---|---|---|---|---|
-| 0a Goal | `goal` | orchestrator + user, chat | `goal.md`: starting point (new / existing code + path), input, output, method in words | user agrees |
+| 0a Goal | `goal` | orchestrator + user, chat | `goal.md` + `foundry.json` (main-code paths, for the hook): starting point (new / existing code + path), input, output, method in words | user agrees |
 | 0b Literature review | `literature` | orchestrator + user, chat | `literature-review.md` from papers the user put in `literature/`, read to achieve the goal: physical meaning, how others did this calculation, what we take, results to compare with | user agrees |
 | 0c Formulation | `formulation` | orchestrator + user: page (artifact, LaTeX) + chat | `formulation.md`: which equations, which quantity each gives, how they chain from input to output, pseudocode of the whole calculation (rough shape) | user agrees |
 | 0d Rigorous check | `theory-check` | orchestrator derives; 🤖 `theory-checker` re-derives independently; equation-centred briefing (artifact, LaTeX) | `theory/derivation.md` (orchestrator's), `theory/claims.md` (numbered, self-contained), `theory/checks/` (checker's), `pages/theory.html` | `theory/REVIEW.md` approved |
@@ -53,6 +53,7 @@ Stages 0d, 1, 2 and 5 end with a briefing (skill `brief`): the big picture first
   <main code>                    developed in place, never inside foundry/
   foundry/<code>/
     goal.md                      0a
+    foundry.json                 0a — main-code paths; the hook uses them
     literature/                  papers and notes the user provides
     literature-review.md         0b
     formulation.md               0c

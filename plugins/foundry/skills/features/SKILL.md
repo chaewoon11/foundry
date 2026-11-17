@@ -2,7 +2,6 @@
 name: features
 description: foundry stage 0e — split the code into features with the user: order, dependencies and a verification level each. Writes foundry/<code>/roadmap.md. Run by the orchestrator.
 argument-hint: "<code>"
-disable-model-invocation: true
 ---
 
 # 0e · Features

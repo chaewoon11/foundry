@@ -1,0 +1,32 @@
+{
+  "_comment": "Per-agent access rules, applied to every code folder foundry/<code>/ in the project. Paths are relative to the code folder; '*' matches one path segment (any feature); '@source' is the code's main-code paths from foundry.json. read_deny: no read, search or write. write_allow: the only writable places (everything else in the project is blocked). create_only: new files only. Bash: commands that name a forbidden path are blocked; 'developer' also may not search recursively or read git history. The main session is not restricted.",
+  "roles": {
+    "theory-checker": {
+      "read_deny": ["theory/derivation.md", "@source", "reference", "features"],
+      "write_allow": ["theory/checks"]
+    },
+    "spec-writer": {
+      "read_deny": ["@source", "reference", "features/*/tests", "features/*/audit"],
+      "write_allow": ["features/*/method.md", "features/*/REVIEW-method.md", "features/*/progress"]
+    },
+    "test-designer": {
+      "read_deny": ["@source", "reference", "features/*/audit"],
+      "write_allow": ["features/*/tests", "features/*/REVIEW-tests.md", "features/*/progress"]
+    },
+    "oracle": {
+      "read_deny": ["@source", "features/*/tests", "features/*/audit"],
+      "write_allow": ["reference"]
+    },
+    "developer": {
+      "read_deny": ["features/*/tests/rules.md", "features/*/tests/generators", "features/*/tests/holdout", "reference", "features/*/audit/private", "theory/checks"],
+      "write_allow": ["@source", "features/*/progress"],
+      "create_only": ["features/*/tests/regression"],
+      "bash": "developer"
+    },
+    "auditor": {
+      "read_deny": [],
+      "write_allow": ["features/*/audit", "features/*/progress"]
+    }
+  },
+  "protected": ["foundry.json"]
+}

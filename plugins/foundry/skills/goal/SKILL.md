@@ -2,7 +2,6 @@
 name: goal
 description: foundry stage 0a — agree with the user on the starting point, the input, the output, and the method in words. Writes foundry/<code>/goal.md. Run by the orchestrator.
 argument-hint: "<code>"
-disable-model-invocation: true
 ---
 
 # 0a · Goal
@@ -22,8 +21,13 @@ You (the orchestrator) and the user agree, in chat, on four things — no more. 
 1. Ask for what the user has not already said. Keep it short: one or two messages, not an interview.
 2. If something is vague, propose a concrete wording and let the user correct it. Do not ask about details that belong to later stages (approximations, equations, numerical methods, API).
 3. For existing code, ask only for its path, what it computes now, and how it is run. Do not read the code yourself.
-4. Write `foundry/<code>/goal.md` (below), show it, and get a plain "yes". That ends 0a.
-5. Hand over to 0b: tell the user to put the papers and notes they want to discuss in `foundry/<code>/literature/`.
+4. Write `foundry/<code>/goal.md` (below), show it, and get a plain "yes".
+5. Write `foundry/<code>/foundry.json` with the main code's path(s), relative to the project root — the plugin's hook uses it to keep agents that must not see the code away from it:
+   ```json
+   { "code": "<code>", "source": ["<path>"] }
+   ```
+   If the path changes later, update this file. That ends 0a.
+6. Hand over to 0b: tell the user to put the papers and notes they want to discuss in `foundry/<code>/literature/`.
 
 ## `goal.md`
 ```

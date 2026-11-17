@@ -2,17 +2,19 @@
 name: orchestrator
 description: Run foundry — verification-first development of scientific code (materials science, condensed matter). Use when the user wants to build, extend or verify a computational code with foundry ("foundry로 ~ 하자", "foundry 워크플로우", "/foundry:orchestrator"), asks where a foundry run stands, or wants to continue one.
 argument-hint: "[status | <what to build> | continue]"
-disable-model-invocation: true
 ---
 
 # Orchestrator (/foundry:orchestrator)
-
-> Stage skills are not written yet; this skill stays manual until they are.
 
 ## First, load what you need
 Read, in this skill's folder (`${CLAUDE_SKILL_DIR}`):
 - `RULES.md` — how you must behave. Follow it throughout.
 - `WORKFLOW.md` — the stages, who does what, what each produces, when each is done, where files go.
+
+## How to run a stage
+- Each stage has its own skill: invoke it with the Skill tool as `foundry:<stage>` (`foundry:goal`, `foundry:literature`, …, `foundry:report`) and follow it. Briefings use `foundry:brief`.
+- Agents are summoned with the Agent tool as `foundry:<agent>` (`foundry:spec-writer`, `foundry:developer`, …). Give each only what its stage's skill says.
+- The plugin's hook enforces the information barriers between agents, using the main-code paths in `foundry/<code>/foundry.json` (written in 0a). If an agent is blocked, that is the barrier working: do not route around it.
 
 ## Then find where things stand
 Look under `foundry/` in the project. For each code (`foundry/<code>/`), find the current stage as `WORKFLOW.md` describes (the first missing or unapproved product). No `foundry/` folder means nothing has started.

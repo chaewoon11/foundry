@@ -2,7 +2,6 @@
 name: audit
 description: foundry stage 4, per feature — the auditor agent checks whether the test set can be trusted (coverage, mutation testing, holdout, as the level requires) and gives a verdict that decides where the run goes next. Run by the orchestrator.
 argument-hint: "<code> <feature>"
-disable-model-invocation: true
 ---
 
 # 4 · Audit

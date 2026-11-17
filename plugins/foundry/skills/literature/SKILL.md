@@ -2,7 +2,6 @@
 name: literature
 description: foundry stage 0b — review with the user the papers and notes they put in foundry/<code>/literature/, for physical meaning and prior work rather than equations. Writes foundry/<code>/literature-review.md and discusses it in chat. Run by the orchestrator.
 argument-hint: "<code>"
-disable-model-invocation: true
 ---
 
 # 0b · Literature review

@@ -2,7 +2,6 @@
 name: method
 description: foundry stage 1, per feature — fix the numerical method and the API of one feature. The spec-writer agent drafts them; the user decides in a short briefing. Writes foundry/<code>/features/<feature>/method.md. Run by the orchestrator.
 argument-hint: "<code> <feature>"
-disable-model-invocation: true
 ---
 
 # 1 · Numerical method & interface

@@ -2,7 +2,6 @@
 name: brief
 description: foundry's common briefing procedure — show the page, ask the user only their decisions one at a time, approve the agents' decisions as one list, record every answer verbatim, re-brief changes, approve. Used by stages 0d, 1, 2 and 5; each stage's skill says what to show and what to ask. Run by the orchestrator.
 argument-hint: "<code> [<feature>] <stage>"
-disable-model-invocation: true
 ---
 
 # Briefing

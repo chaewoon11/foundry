@@ -2,7 +2,6 @@
 name: theory-check
 description: foundry stage 0d — derive every equation of formulation.md rigorously, have the theory-checker agent re-derive each one independently, and brief the user on the equations (artifact page, LaTeX). Writes foundry/<code>/theory/. Run by the orchestrator.
 argument-hint: "<code>"
-disable-model-invocation: true
 ---
 
 # 0d · Rigorous check

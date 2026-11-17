@@ -2,7 +2,6 @@
 name: coding
 description: foundry stage 3, per feature — the developer agent writes the main code in place until the public tests pass. The user only hears progress, unless something in the method or the tests is unclear. Run by the orchestrator.
 argument-hint: "<code> <feature>"
-disable-model-invocation: true
 ---
 
 # 3 · Coding

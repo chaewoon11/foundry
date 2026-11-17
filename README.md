@@ -5,7 +5,18 @@ Built for scientific codes (especially for materials science and condensed matte
 
 You describe the code you want; foundry first works out the physics and the equations with you, then builds the code feature by feature — each with its own tests, an independent reference where needed, and an audit of the tests themselves. You take part through short briefings and decide only what has no correct answer.
 
-> **Status:** the workflow and every step's instructions are written (this branch). Not installable yet: the plugin manifest, the hooks that enforce the information barriers, and the helper scripts are still to come.
+## Install
+In Claude Code:
+```
+/plugin marketplace add chaewoon11/foundry
+/plugin install foundry@sci-workflows
+```
+From a shell (also for a cloud environment's setup script):
+```bash
+claude plugin marketplace add chaewoon11/foundry
+claude plugin install foundry@sci-workflows -y
+```
+Then, in a project, the user says "foundry로 ~ 하자" or runs `/foundry:orchestrator <what to build>`.
 
 ## How a run goes
 
@@ -116,6 +127,20 @@ Each step is driven by one skill (the orchestrator reads it) and, for 🤖 steps
 - **Audit the tests, not just the code.** Bugs are planted on purpose; if the tests do not catch them, the tests are too weak.
 - **One feature at a time.** Each finished feature's tests guard every later one.
 
+## Information barriers
+A hook (`hooks/guard.py`, rules in `hooks/policy.json`) checks every file access of every foundry agent. The main code's paths come from `foundry/<code>/foundry.json`, written in stage 0a.
+
+| Agent | Cannot see | Can write |
+|---|---|---|
+| theory-checker | `theory/derivation.md`, main code, oracle, features | `theory/checks/` |
+| spec-writer | main code, oracle, tests, audit | `method.md`, `REVIEW-method.md` |
+| test-designer | main code (may run it, not read it), oracle, audit | `tests/`, `REVIEW-tests.md` |
+| oracle | main code, tests, audit | `reference/` |
+| developer | holdout, test rules and generators, oracle, audit details, git history | main code; new files in `tests/regression/` |
+| auditor | — | `audit/` |
+
+The main session is not restricted. Shell commands are checked by their text, so the barrier stops an agent from wandering into a file, not a determined attempt to get around it.
+
 ## Verification levels (chosen per feature)
 
 | | L1 | L2 | L3 |
@@ -130,6 +155,7 @@ Each step is driven by one skill (the orchestrator reads it) and, for 🤖 steps
 <project>/
   <main code>                  developed in place, never inside foundry/
   foundry/<code>/
+    foundry.json               main-code paths (for the barrier)
     goal.md · literature/ · literature-review.md · formulation.md
     theory/                    derivation.md · claims.md · checks/ · REVIEW.md
     roadmap.md

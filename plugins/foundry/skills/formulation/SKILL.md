@@ -2,7 +2,6 @@
 name: formulation
 description: foundry stage 0c — set the frame of the calculation with the user: which equations are implemented, which quantity each gives, how they chain from input to output, and the pseudocode of the whole calculation. Rough shape only, no detailed derivations. Writes foundry/<code>/formulation.md, shows it as a page (artifact, equations in LaTeX) and discusses it in chat. Run by the orchestrator.
 argument-hint: "<code>"
-disable-model-invocation: true
 ---
 
 # 0c · Formulation

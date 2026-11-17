@@ -1,0 +1,18 @@
+{
+  "name": "foundry",
+  "description": "A scientific code development plugin, verification-first: theory first, then each feature with its own tests, an independent oracle and an audit of the tests.",
+  "author": {
+    "name": "Chaewoon"
+  },
+  "homepage": "https://github.com/chaewoon11/foundry",
+  "repository": "https://github.com/chaewoon11/foundry",
+  "license": "MIT",
+  "keywords": [
+    "scientific-computing",
+    "verification",
+    "testing",
+    "materials-science",
+    "condensed-matter",
+    "dft"
+  ]
+}

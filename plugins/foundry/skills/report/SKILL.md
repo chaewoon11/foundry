@@ -2,7 +2,6 @@
 name: report
 description: foundry stage 5, per feature — the auditor writes the verification report after a PASS verdict, the user is briefed on it and gives the final approval, and the run moves on to the next feature. Run by the orchestrator.
 argument-hint: "<code> <feature>"
-disable-model-invocation: true
 ---
 
 # 5 · Report

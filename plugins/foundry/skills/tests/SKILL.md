@@ -2,7 +2,6 @@
 name: tests
 description: foundry stage 2, per feature — build the test set (test-designer) and, where the level calls for it, the reference implementation (oracle), from the method and the verified equations only; then brief the user by test kind. Run by the orchestrator.
 argument-hint: "<code> <feature>"
-disable-model-invocation: true
 ---
 
 # 2 · Tests & oracle
