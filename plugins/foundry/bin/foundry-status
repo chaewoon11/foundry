@@ -7,7 +7,7 @@
                                   project has no foundry/ folder; otherwise the status
                                   followed by the orchestrator rules
   foundry-status --with-rules     the orchestrator rules, then the status (always printed;
-                                  used by the foundry skill)
+                                  used by foundry:start)
 
 No state file: the stage comes from spec/, spec/issues/, the REVIEW.md records and
 audit/. Staleness of an audit uses git commit order (fresh clones reset mtimes).
@@ -141,7 +141,7 @@ def main():
     args = [a for a in sys.argv[1:] if not a.startswith("--")]
     session = "--session-start" in sys.argv
     rules_first = "--with-rules" in sys.argv
-    rules = read(os.path.join(PLUGIN, "skills", "foundry", "RULES.md")) or ""
+    rules = read(os.path.join(PLUGIN, "skills", "start", "RULES.md")) or ""
     if rules_first:
         print(rules.strip() + "\n")
     cs = codes(ROOT)
@@ -149,7 +149,7 @@ def main():
         cs = [c for c in cs if c["name"] in args]
     if not cs:
         if not session:
-            print("[foundry] no code in this project yet (no foundry/<code>/foundry.json). Start one with the foundry skill.")
+            print("[foundry] no code in this project yet (no foundry/<code>/foundry.json). Start one with /foundry:start.")
         return
     out = ["[foundry] status"]
     for c in cs:

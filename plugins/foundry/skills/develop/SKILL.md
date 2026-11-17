@@ -1,6 +1,6 @@
 ---
 name: develop
-description: foundry stage 3 for one code — the developer implements or changes the main code until the public tests pass; stops on spec issues. Usually run from the foundry skill.
+description: foundry stage 3 for one code — the developer implements or changes the main code until the public tests pass; stops on spec issues. Usually run from foundry:start.
 argument-hint: "<code> [focus]"
 ---
 

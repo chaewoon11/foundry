@@ -1,11 +1,11 @@
 ---
-name: foundry
-description: Entry point and orchestrator of the foundry workflow for verification-first scientific code development. Use when the user wants to develop, extend or verify scientific code with foundry (e.g. "foundry로 ~ 하자", "code develop 워크플로우", "검증 워크플로우로 개발하자", "let's use foundry to ..."), asks where a foundry run stands or what comes next, or wants to continue one.
+name: start
+description: Start or continue a foundry run (/foundry:start) — entry point and orchestrator of the foundry workflow for verification-first scientific code development. Use when the user wants to develop, extend or verify scientific code with foundry (e.g. "foundry로 ~ 하자", "code develop 워크플로우", "검증 워크플로우로 개발하자", "let's use foundry to ..."), asks where a foundry run stands or what comes next, or wants to continue one.
 argument-hint: "[status | <what to build> | continue <code>]"
 allowed-tools: Bash(foundry-status:*), Bash(foundry-init:*)
 ---
 
-# foundry
+# foundry:start
 
 ## Rules for you, the orchestrator, and the current status of this project
 !`foundry-status --with-rules`

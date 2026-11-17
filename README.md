@@ -23,7 +23,7 @@ Requires `python3` (hooks and helper scripts). The bundled script templates assu
 ## Use
 
 ```
-/foundry                                   # or just say: "let's use foundry to …"
+/foundry:start                             # or just say: "let's use foundry to …"
 "Extend my solver in src/solver/ with periodic boundaries and Bloch k."
 ```
 
@@ -33,7 +33,7 @@ Start a new code in a fresh session. From there the run proceeds on its own. The
 2. **Answer briefings.** Each document that needs the user's approval is explained one item at a time in plain language: what was decided, why, the alternatives, and Claude's view. The user approves, changes, or asks.
 3. **Decide when asked.** Apart from briefings, the run stops in only two cases: an agent finds a problem in the spec, or the audit fails. Either way the user is told what happened and what the options are, and decides.
 
-A new session picks up a run where the user left off: "let's continue", or `/foundry status`.
+A new session picks up a run where the user left off: "let's continue", or `/foundry:start status`.
 
 ## How a run goes
 
@@ -130,7 +130,7 @@ One project can hold several codes. A project without `foundry/` is left alone: 
 plugins/foundry/
   .claude-plugin/plugin.json
   agents/        spec-writer, test-designer, oracle, developer, auditor
-  skills/        foundry (entry + orchestrator rules), spec, design-tests, develop, audit, report, brief
+  skills/        start (entry + orchestrator rules), spec, design-tests, develop, audit, report, brief
   hooks/         hooks.json, guard.py + policy.json (barriers), review_gate.py (approval gate)
   bin/           foundry-status, foundry-init
   templates/     script templates

@@ -1,6 +1,6 @@
 ---
 name: spec
-description: foundry stage 1 for one code — settle the spec with the user, recommend and set the verification level, write the acceptance criteria, brief everything, and put the scripts in place. Also handles spec issues. Usually run from the foundry skill.
+description: foundry stage 1 for one code — settle the spec with the user, recommend and set the verification level, write the acceptance criteria, brief everything, and put the scripts in place. Also handles spec issues. Usually run from foundry:start.
 argument-hint: "<code> [new | issues]"
 ---
 
@@ -29,7 +29,7 @@ Goal: fix **what is solved, how it is judged, and when it is done** — before a
 5. **Brief** the spec (`foundry:brief`, depth by level). Apply the collected edits through `foundry:spec-writer`, re-brief changed items, approve when the user confirms.
 6. **Scripts** — you (not an agent) adapt `CODE/scripts/` to the contract in `project.md`: `build`, `run-public-tests`, `run-oracle` (if there is an oracle) are project-specific; `run-holdout`, `holdout_summary.py` and `mutate` are templates already in place — adjust paths and the test runner if needed. Every script must honour `FOUNDRY_SRC` (see `project.md`) so mutation testing can point the tests at a copy of the main code. Tell the user in one line each what the scripts do, and commit.
 
-Ends when `CODE/spec/REVIEW.md` is approved and the scripts run. The foundry skill then continues with `foundry:design-tests`.
+Ends when `CODE/spec/REVIEW.md` is approved and the scripts run. foundry:start then continues with `foundry:design-tests`.
 
 ## issues
 For each open file in `CODE/spec/issues/` (no `## Resolution`): brief it as one item (record in `CODE/spec/issues/REVIEW.md`): what was found, where, the options, your view. After the user decides, hand to `foundry:spec-writer` to update the spec and append `## Resolution`; re-brief the changes; then redo what the resolution names (tests, oracle, code) through the matching stage.

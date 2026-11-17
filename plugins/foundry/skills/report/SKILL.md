@@ -1,6 +1,6 @@
 ---
 name: report
-description: foundry stage 5 for one code — brief the verification report after a PASS verdict and get the user's approval. Usually run from the foundry skill.
+description: foundry stage 5 for one code — brief the verification report after a PASS verdict and get the user's approval. Usually run from foundry:start.
 argument-hint: "<code>"
 ---
 

@@ -1,6 +1,6 @@
 ---
 name: design-tests
-description: foundry stage 2 for one code — build the test set (and the oracle at L2/L3 when planned) from the approved spec, then brief the test rules. Also strengthens tests after a failed audit. Usually run from the foundry skill.
+description: foundry stage 2 for one code — build the test set (and the oracle at L2/L3 when planned) from the approved spec, then brief the test rules. Also strengthens tests after a failed audit. Usually run from foundry:start.
 argument-hint: "<code> [all | oracle | tests | fix-audit]"
 ---
 
@@ -14,7 +14,7 @@ Prerequisite: `CODE/spec/REVIEW.md` approved.
 3. Report when each finishes; if a spec issue appears, stop and brief it.
 4. **Brief the test rules** (`foundry:brief`): what each rule checks, which terms, the tolerance and why. This is the main point where the user's trust enters. Apply changes through `foundry:test-designer`, re-brief, approve when the user confirms.
 
-Ends when `CODE/tests/REVIEW.md` is approved. The foundry skill then continues with `foundry:develop`.
+Ends when `CODE/tests/REVIEW.md` is approved. foundry:start then continues with `foundry:develop`.
 
 ## oracle / tests
 Only step 1, or only steps 2–4 (e.g. after a spec change). New rules are appended to `CODE/tests/REVIEW.md` as PENDING and that review reopens.

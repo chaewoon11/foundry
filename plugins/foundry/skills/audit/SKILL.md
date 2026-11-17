@@ -1,6 +1,6 @@
 ---
 name: audit
-description: foundry stage 4 for one code — the auditor judges the test set (coverage, mutation testing, holdout as the level requires) and issues a verdict that routes the run. Usually run from the foundry skill.
+description: foundry stage 4 for one code — the auditor judges the test set (coverage, mutation testing, holdout as the level requires) and issues a verdict that routes the run. Usually run from foundry:start.
 argument-hint: "<code> [all | coverage | mutation | holdout]"
 ---
 
