@@ -18,6 +18,17 @@ or, in two steps:
 /plugin install foundry@sci-workflows
 ```
 
+**Cloud sessions (claude.ai/code):** `/plugin` is not available there. Put the install in the environment's setup script instead (cloud environment menu → Edit → Setup script); the update lines keep a cached environment current:
+
+```bash
+claude plugin marketplace add chaewoon11/foundry
+claude plugin marketplace update sci-workflows
+claude plugin install foundry@sci-workflows -y
+claude plugin update foundry@sci-workflows
+```
+
+(While testing the development branch, use `chaewoon11/foundry#dev` in the first line.)
+
 Requires `python3` (hooks and helper scripts). The bundled script templates assume Python + pytest projects; other languages adapt them during the spec stage.
 
 ## Use
