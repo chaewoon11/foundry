@@ -9,7 +9,7 @@ disable-model-invocation: true
 
 Prerequisite: `foundry/<code>/goal.md` agreed (0a).
 
-Purpose: understand **what the physics means and what has been done**, before deciding which equations to implement. Read like a researcher preparing a project, not like a programmer looking for formulas. Equations appear only where they carry the physical idea; the frame of the calculation comes in 0c.
+Purpose: read what is needed **to achieve `goal.md`** — what the physics means and how others have done this kind of calculation — before deciding which equations to implement. This is not a search for research gaps: the goal is already set. Read like a researcher preparing to carry out a known task, not like a programmer looking for formulas. Equations appear only where they carry the physical idea; the frame of the calculation comes in 0c.
 
 ## Sources
 - The user puts papers, theses, notes or code documentation in `foundry/<code>/literature/`.
@@ -22,18 +22,17 @@ Per source:
 - **Question and answer**: what problem it addresses and what it finds, in two or three sentences.
 - **Physical picture**: what the model describes, which interactions matter, what is neglected.
 - **Method**: what was computed and how, in words.
-- **What it establishes**: results that are now accepted; numbers or figures that can serve as reference values later.
-- **Limits**: what it does not cover or gets wrong, as the source itself or later work says.
+- **Results to compare with**: numbers or figures our code should be able to reproduce.
+- **Pitfalls**: conventions, approximations or steps the source flags as delicate.
 
-Across sources:
-- **How the field developed**: who did what, in which order, what each step added.
-- **What is established and what is open.**
-- **Where this code fits**: what it reproduces, what it adds, what it deliberately leaves out — in relation to `goal.md`.
+Across sources, for the goal:
+- **The usual way to do it**: how the sources set up this kind of calculation, and where they differ (conventions, approximations).
+- **What we take**: the approach, conventions and reference results this code will follow.
 
 ## How
 1. Confirm the list of sources in `literature/` with the user.
 2. Draft `foundry/<code>/literature-review.md` (below).
-3. **Discuss in chat**, not item by item: start with the overall picture (how the field developed, where this code fits), then the points that matter for the goal. Ask what the user sees differently, what you missed, what to read more closely. Update the file as the discussion goes.
+3. **Discuss in chat**, not item by item: start with the overall picture (the usual way to do this calculation and what we take from it), then the points that matter most for the goal. Ask what the user sees differently, what you missed, what to read more closely. Update the file as the discussion goes.
 4. When the user agrees with the review, 0b ends. Commit and move on to 0c (`formulation`).
 
 ## `literature-review.md`
@@ -49,14 +48,11 @@ Across sources:
 - Question and answer:
 - Physical picture:
 - Method:
-- Establishes:
-- Limits:
+- Results to compare with:
+- Pitfalls:
 
-## The field
-How it developed · what is established · what is open
-
-## Where this code fits
-Reproduces · adds · leaves out (relative to goal.md)
+## For the goal
+The usual way to do it · where sources differ · what we take
 
 ## Reference values worth reproducing
 | Source | Figure / table | Quantity | Conditions |
