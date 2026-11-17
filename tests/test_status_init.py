@@ -72,3 +72,10 @@ def test_open_spec_issue_wins(project):
     init(project, "toy", "src/toy")
     (project / "foundry/toy/spec/issues/001-x.md").write_text("# 001\n")
     assert "stage: spec issues" in run(STATUS, project).stdout
+
+
+def test_with_rules_always_prints(project):
+    """The foundry skill injects `foundry-status --with-rules`; it must print the rules even with no code yet
+    (skills may not `cat` files outside the working directory, so the rules come through this command)."""
+    r = run(STATUS + ["--with-rules"], project)
+    assert r.returncode == 0 and "orchestrator rules" in r.stdout and "no code in this project yet" in r.stdout

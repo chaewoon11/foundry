@@ -13,3 +13,4 @@ First version of the foundry plugin, packaged from the workflow used in the 1D S
 - `bin/foundry-init`, `bin/foundry-status` (stage inferred from files; audit staleness by git commit order).
 - Script templates with `FOUNDRY_SRC`, so mutation testing runs the tests against a copy of the main code.
 - Automated tests (pytest) and CI.
+- Fix: the entry skill loads the orchestrator rules and status through `foundry-status --with-rules` (on PATH from `bin/`, allowed in the skill's `allowed-tools`) instead of `cat`-ing a plugin file, which Claude Code blocks outside the working directory. Verified in a live headless session: `/foundry status` works, and a real `foundry:developer` agent is blocked from reading holdout tests by the plugin's guard hook.

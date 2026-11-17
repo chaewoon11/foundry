@@ -2,15 +2,13 @@
 name: foundry
 description: Entry point and orchestrator of the foundry workflow for verification-first scientific code development. Use when the user wants to develop, extend or verify scientific code with foundry (e.g. "foundry로 ~ 하자", "code develop 워크플로우", "검증 워크플로우로 개발하자", "let's use foundry to ..."), asks where a foundry run stands or what comes next, or wants to continue one.
 argument-hint: "[status | <what to build> | continue <code>]"
+allowed-tools: Bash(foundry-status:*), Bash(foundry-init:*)
 ---
 
 # foundry
 
-## Rules for you, the orchestrator
-!`cat "${CLAUDE_SKILL_DIR}/RULES.md"`
-
-## Current status of this project
-!`python3 "${CLAUDE_PLUGIN_ROOT}/bin/foundry-status" || true`
+## Rules for you, the orchestrator, and the current status of this project
+!`foundry-status --with-rules`
 
 ## What to do
 
@@ -21,7 +19,7 @@ argument-hint: "[status | <what to build> | continue <code>]"
 **Start a new code** (the user describes something to build or extend):
 1. Recommend a fresh session if this one already holds unrelated context about the code (the barriers depend on you not carrying it into agents' tasks). Continue if the user prefers.
 2. Agree on a short code name and where the main code lives (an existing directory to extend, or a new one). Then run
-   `python3 "${CLAUDE_PLUGIN_ROOT}/bin/foundry-init" <code> --source <path> [--source <path> ...]`
+   `foundry-init <code> --source <path> [--source <path> ...]`
    and commit.
 3. Run the stages below in order, each by following its skill. Move on automatically after each approval, with a one-line heads-up.
 
