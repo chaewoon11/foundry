@@ -1,0 +1,28 @@
+{
+  "_comment": "Per-role access rules. Paths are relative to a code folder foundry/<code>/; '@source' means that code's main-code paths from foundry.json; 'progress' is the code folder's progress/ directory. read_deny: blocked for read/search. write_allow: writable (everything else in the project is blocked). create_only: new files only. bash: 'developer' = allowlist (see guard.py); otherwise commands that name a forbidden path are blocked. Rules apply across every code folder in the project. Agent names may carry the plugin prefix (foundry:developer). The main session is not restricted.",
+  "roles": {
+    "spec-writer": {
+      "read_deny": ["@source", "reference"],
+      "write_allow": ["spec"]
+    },
+    "test-designer": {
+      "read_deny": ["@source", "reference"],
+      "write_allow": ["tests", "spec/issues", "progress"]
+    },
+    "oracle": {
+      "read_deny": ["@source", "tests"],
+      "write_allow": ["reference", "spec/issues", "progress"]
+    },
+    "developer": {
+      "read_deny": ["tests/holdout", "tests/generators", "reference", "audit/private"],
+      "write_allow": ["@source", "spec/issues", "progress"],
+      "create_only": ["tests/regression"],
+      "bash": "developer"
+    },
+    "auditor": {
+      "read_deny": [],
+      "write_allow": ["audit", "spec/issues", "progress"]
+    }
+  },
+  "protected": ["foundry.json", "scripts"]
+}

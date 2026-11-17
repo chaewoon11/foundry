@@ -1,0 +1,47 @@
+#!/usr/bin/env bash
+# Mutation testing on a COPY of src/. The original src/ is never touched.
+#   scripts/mutate --baseline         run the unmutated suite (public + holdout); must pass; records its time
+#   scripts/mutate <patch> [--id ID]  apply a unified diff (a/src/..., b/src/...) to a copy and run the suite
+# stdout: "<ID> KILLED" | "<ID> SURVIVED" | "<ID> INVALID"   (or the baseline result)
+# Per-mutant timeout: max(600 s, 5 x baseline time); a timeout counts as KILLED.
+set -uo pipefail
+cd "$(dirname "$0")/.."
+priv=audit/private
+mkdir -p "$priv/work" "$priv/mutants"
+
+suite() {  # $1 = src dir; runs public + holdout with PYTHONPATH pointing at it
+  local dirs=()
+  for d in tests/anchor tests/public tests/external tests/regression tests/holdout; do
+    [ -d "$d" ] && dirs+=("$d")
+  done
+  PYTHONPATH="$1" python3 -m pytest "${dirs[@]}" -q -x -p no:cacheprovider
+}
+
+if [ "${1:-}" = "--baseline" ]; then
+  start=$(date +%s)
+  if suite src >"$priv/mutants/baseline.log" 2>&1; then
+    echo $(( $(date +%s) - start )) >"$priv/baseline_seconds"
+    echo "baseline PASS ($(cat "$priv/baseline_seconds") s)"; exit 0
+  else
+    echo "baseline FAIL: the unmutated code must pass public + holdout before mutants count"; exit 1
+  fi
+fi
+
+patchfile="${1:?usage: scripts/mutate <patch> [--id ID] | --baseline}"
+id="$(basename "$patchfile")"; id="${id%.*}"
+[ "${2:-}" = "--id" ] && id="${3:?missing ID}"
+[ -f "$priv/baseline_seconds" ] || { echo "run scripts/mutate --baseline first"; exit 2; }
+base=$(cat "$priv/baseline_seconds"); limit=$(( base * 5 )); [ "$limit" -lt 600 ] && limit=600
+
+work="$priv/work/$id"; log="$priv/mutants/$id.log"
+rm -rf "$work"; mkdir -p "$work"; cp -r src "$work/src"
+if ! patch -p1 -s -d "$work" <"$patchfile" >"$log" 2>&1 || diff -rq src "$work/src" >/dev/null; then
+  echo "$id INVALID"; exit 0
+fi
+timeout "$limit" bash -c "$(declare -f suite); suite '$work/src'" >>"$log" 2>&1
+rc=$?
+case $rc in
+  0) echo "$id SURVIVED" ;;
+  5) echo "$id INVALID" ;;          # pytest collected no tests
+  *) echo "$id KILLED" ;;           # test failure, error, or timeout (124)
+esac

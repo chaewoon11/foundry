@@ -1,0 +1,10 @@
+{
+  "name": "foundry",
+  "version": "0.1.0",
+  "description": "A scientific code development plugin, verification-first.",
+  "author": { "name": "Chaewoon" },
+  "homepage": "https://github.com/chaewoon11/foundry",
+  "repository": "https://github.com/chaewoon11/foundry",
+  "license": "MIT",
+  "keywords": ["scientific-computing", "verification", "testing", "materials-science", "condensed-matter", "dft"]
+}

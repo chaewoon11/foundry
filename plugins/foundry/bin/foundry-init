@@ -1,0 +1,62 @@
+#!/usr/bin/env python3
+"""foundry-init: register a new code in the current project.
+
+  foundry-init <code-name> --source <path> [--source <path> ...] [--level L1|L2|L3]
+
+Creates foundry/<code-name>/ with foundry.json, spec templates, empty test and
+audit folders, and script templates. The main code itself stays at --source
+(relative to the project root; it may not exist yet). Refuses to overwrite.
+"""
+import argparse
+import datetime
+import json
+import os
+import re
+import shutil
+import stat
+import sys
+
+PLUGIN = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+ROOT = os.environ.get("CLAUDE_PROJECT_DIR") or os.getcwd()
+
+
+def main():
+    ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    ap.add_argument("code")
+    ap.add_argument("--source", action="append", default=[], help="main-code path relative to the project root")
+    ap.add_argument("--level", choices=["L1", "L2", "L3"], default=None,
+                    help="verification level; usually chosen later, after the spec content is settled")
+    a = ap.parse_args()
+
+    if not re.fullmatch(r"[a-z0-9][a-z0-9._-]*", a.code):
+        sys.exit("code name: lower-case letters, digits, '.', '_' or '-'")
+    for s in a.source:
+        if os.path.isabs(s) or ".." in s.split(os.sep):
+            sys.exit(f"--source must be a path inside the project, relative to its root: {s}")
+    cd = os.path.join(ROOT, "foundry", a.code)
+    if os.path.exists(cd):
+        sys.exit(f"foundry/{a.code} already exists")
+
+    for sub in ["spec/issues", "tests/anchor", "tests/generators", "tests/public", "tests/holdout",
+                "tests/external", "tests/regression", "reference", "audit/private", "scripts", "progress"]:
+        os.makedirs(os.path.join(cd, sub))
+    for f in os.listdir(os.path.join(PLUGIN, "skills", "spec", "templates")):
+        shutil.copy(os.path.join(PLUGIN, "skills", "spec", "templates", f), os.path.join(cd, "spec", f))
+    tdir = os.path.join(PLUGIN, "templates", "scripts")
+    for f in os.listdir(tdir):
+        dst = os.path.join(cd, "scripts", f)
+        shutil.copy(os.path.join(tdir, f), dst)
+        if not f.endswith((".py", ".md")):
+            os.chmod(dst, os.stat(dst).st_mode | stat.S_IXUSR | stat.S_IXGRP | stat.S_IXOTH)
+    with open(os.path.join(cd, ".gitignore"), "w") as f:
+        f.write("audit/private/work/\n__pycache__/\n.pytest_cache/\n")
+    cfg = {"code": a.code, "source": a.source, "level": a.level,
+           "created": datetime.date.today().isoformat()}
+    with open(os.path.join(cd, "foundry.json"), "w") as f:
+        json.dump(cfg, f, indent=2)
+        f.write("\n")
+    print(f"created foundry/{a.code}/ (main code: {', '.join(a.source) or 'not set'}; level: {a.level or 'to be chosen'})")
+
+
+if __name__ == "__main__":
+    main()

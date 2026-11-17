@@ -1,0 +1,12 @@
+{
+  "name": "sci-workflows",
+  "description": "Claude Code workflows for scientific computing.",
+  "owner": { "name": "Chaewoon" },
+  "plugins": [
+    {
+      "name": "foundry",
+      "source": "./plugins/foundry",
+      "description": "A scientific code development plugin, verification-first."
+    }
+  ]
+}
