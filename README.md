@@ -16,8 +16,6 @@ From a shell (also for a cloud environment's setup script):
 claude plugin marketplace add chaewoon11/foundry
 claude plugin install foundry@sci-workflows -y
 ```
-While the plugin lives on the `dev` branch, add the marketplace as `https://github.com/chaewoon11/foundry.git#dev` instead.
-
 For a whole repository, `claude plugin marketplace add <source> --scope project` and `claude plugin install foundry@sci-workflows --scope project` write `.claude/settings.json`; commit it, and every session in that repository has foundry.
 
 Then, in a project, the user says "foundry로 ~ 하자" or runs `/foundry:orchestrator <what to build>`.
