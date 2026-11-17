@@ -1,6 +1,6 @@
 ---
 name: formulation
-description: foundry stage 0c — set the frame of the calculation with the user: which equations are implemented, which quantity each gives, how they chain from input to output, and the pseudocode of the whole calculation. Rough shape only, no detailed derivations. Writes foundry/<code>/formulation.md and discusses it in chat. Run by the orchestrator.
+description: foundry stage 0c — set the frame of the calculation with the user: which equations are implemented, which quantity each gives, how they chain from input to output, and the pseudocode of the whole calculation. Rough shape only, no detailed derivations. Writes foundry/<code>/formulation.md, shows it as a page (artifact, equations in LaTeX) and discusses it in chat. Run by the orchestrator.
 argument-hint: "<code>"
 disable-model-invocation: true
 ---
@@ -25,10 +25,12 @@ Purpose: shape the calculation the way a potter first shapes the clay — the ov
 A good frame fits on one screen: typically 3–8 steps.
 
 ## How
-1. Draft `foundry/<code>/formulation.md` (below) from `goal.md` and `literature-review.md`.
-2. **Discuss in chat**: walk through the chain once from input to output, then through the pseudocode, then ask whether a step is missing, unnecessary, or in the wrong order, and whether the approximations match the user's intent. Update the file as the discussion goes.
-3. Do not go into derivations, numerical methods or code. If the discussion drifts there, note the point for 0d (derivations) or stage 1 (numerical method) and come back to the frame.
-4. When the user agrees with the frame, 0c ends. Commit and move on to 0d (`theory-check`).
+1. Draft `foundry/<code>/formulation.md` (below) from `goal.md` and `literature-review.md`. This file is the record.
+2. **Show it as a page.** Render the same content as `foundry/<code>/pages/formulation.html`: conventions, the chain of steps (a small flow diagram from input to output helps), each equation as display math in LaTeX (MathJax), the pseudocode as a code block, approximations, what is left out. Publish it as an artifact when an Artifact tool is available; otherwise send the HTML file or tell the user to open it in a browser.
+3. **Discuss in chat** while the user looks at the page: walk through the chain once from input to output, then through the pseudocode, then ask whether a step is missing, unnecessary, or in the wrong order, and whether the approximations match the user's intent.
+4. After each change, update `formulation.md` first, then regenerate and republish the page, so the two never differ.
+5. Do not go into derivations, numerical methods or code. If the discussion drifts there, note the point for 0d (derivations) or stage 1 (numerical method) and come back to the frame.
+6. When the user agrees with the frame, 0c ends. Commit `formulation.md` and the page, and move on to 0d (`theory-check`).
 
 ## `formulation.md`
 ````markdown
