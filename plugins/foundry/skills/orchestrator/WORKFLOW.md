@@ -60,7 +60,7 @@ Stages 0d, 1, 2 and 5 end with a briefing (skill `brief`): the big picture first
     roadmap.md                   0e
     features/<feature>/          stages 1–5 of one feature: method, tests, oracle, audit, report, REVIEW files, pages
 ```
-Open (not decided): oracle per code or per feature; exact file names inside `features/<feature>/`.
+Oracle: one per code, `foundry/<code>/reference/`, extended feature by feature. Feature files: `method.md`, `tests/` (rules.md, generators/, public/, holdout/, existing/), `REVIEW-<stage>.md`, `pages/<stage>.html`; stages 3–5 add theirs.
 
 ## Where a run stands
 Read it from the files: the first missing or unapproved product in the tables above is the current stage. A `REVIEW.md` is approved when its header says `Review status: APPROVED`.
