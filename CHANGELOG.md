@@ -14,3 +14,4 @@ First version of the foundry plugin, packaged from the workflow used in the 1D S
 - Script templates with `FOUNDRY_SRC`, so mutation testing runs the tests against a copy of the main code.
 - Automated tests (pytest) and CI.
 - Fix: the entry skill loads the orchestrator rules and status through `foundry-status --with-rules` (on PATH from `bin/`, allowed in the skill's `allowed-tools`) instead of `cat`-ing a plugin file, which Claude Code blocks outside the working directory. Verified in a live headless session: `/foundry status` works, and a real `foundry:developer` agent is blocked from reading holdout tests by the plugin's guard hook.
+- Fix: `mutate` removes bytecode caches from the copy and disables writing them. A cache copied with the main code could look valid for a same-size edit made within the same second, so the unmutated code ran and the mutant was wrongly reported as SURVIVED (found by the test suite; it can only under-report kills).

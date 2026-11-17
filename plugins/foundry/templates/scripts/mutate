@@ -30,6 +30,10 @@ limit=$(( $(cat "$priv/baseline_seconds") * 5 )); [ "$limit" -lt 600 ] && limit=
 work="$priv/work/$id"; log="$priv/mutants/$id.log"
 rm -rf "$work"; mkdir -p "$work"
 for s in $SOURCES; do mkdir -p "$work/$(dirname "$s")"; cp -r "$ROOT/$s" "$work/$s"; done
+# Drop bytecode caches from the copy: a cache can look valid for a same-size edit made within the same
+# second and would then run the unmutated code.
+find "$work" -name __pycache__ -type d -prune -exec rm -rf {} + 2>/dev/null; find "$work" -name '*.pyc' -delete 2>/dev/null
+export PYTHONDONTWRITEBYTECODE=1
 if ! patch -p1 -s -d "$work" <"$patchfile" >"$log" 2>&1; then echo "$id INVALID"; exit 0; fi
 same=1; for s in $SOURCES; do diff -rq "$ROOT/$s" "$work/$s" >/dev/null || same=0; done
 [ $same = 1 ] && { echo "$id INVALID"; exit 0; }
