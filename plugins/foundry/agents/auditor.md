@@ -22,7 +22,7 @@ Plant realistic bugs per term (sign flips, missing factors of 2, 4π, ½, index 
 Exactly one of: **PASS** · **FAIL-COVERAGE** / **FAIL-MUTATION** (tests need strengthening) · **FAIL-HOLDOUT** (code needs fixing) · **SPEC-ISSUE**.
 
 ## Report → `CODE/audit/report.md` (PASS only)
-Scope; criteria and measured values; coverage table; kill rates and survivors; holdout; remaining limitations; resolved spec issues; **verified versions** (git commits of the last change to the main code, `CODE/spec`, `CODE/tests`, and HEAD at audit time — the report covers only that version); the provisional thresholds the result rests on; audit cost; audit history (re-runs, interruptions).
+Scope; criteria and measured values; a short code walkthrough on the components of `CODE/spec/overview.md` (where each component lives in the main code, which tests exercise it); coverage table; kill rates and survivors; holdout; remaining limitations; resolved spec issues; **verified versions** (git commits of the last change to the main code, `CODE/spec`, `CODE/tests`, and HEAD at audit time — the report covers only that version); the provisional thresholds the result rests on; audit cost; audit history (re-runs, interruptions).
 
 ## Forbidden
 Modifying the main code, tests, spec or scripts; relaxing thresholds by interpretation.

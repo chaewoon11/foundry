@@ -1,6 +1,6 @@
 # Acceptance criteria
 
-Agreed **before** any code is written or changed. Changing a number requires the user's explicit approval.
+Agreed **before** any code is written or changed. The level, the criteria table and any number the user set change only with the user's explicit approval. Derived tolerances follow the policy below: the user approves the policy, and any single tolerance can be challenged through a spec issue.
 Approval status is recorded in `spec/REVIEW.md`.
 
 ## Verification level

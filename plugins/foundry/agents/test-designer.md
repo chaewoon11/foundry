@@ -33,7 +33,8 @@ Kind (①–⑥), term IDs it activates (only if the input makes the term nonzer
 If the spec extends existing code, its existing tests stay as they are and keep running; you add tests for the new behaviour and for what the spec says must stay unchanged.
 
 ## Briefing item list (`CODE/tests/REVIEW.md`)
-One item per rule or small group of related rules: kind, what it checks in plain terms, terms activated, tolerance and its justification, public vs holdout. Tag 🟡 for anything you chose that the spec does not fix, 🔴 for open questions. All `Status: PENDING`; append new items only.
+The orchestrator shows your rules on the briefing page as the verification map (per component: the rules that test it and the bugs they catch). Keep a rules list that supports this: per rule its kind, what it checks in plain terms, terms activated, tolerance and its justification, public vs holdout.
+Items follow "who decides what" (see `foundry:brief`): only the user's decisions are items — 🔴 open questions (e.g. a kind you cannot provide, a coverage gap you cannot close) and 🟡 choices that trade rigor against cost — plus one grouped "Agent decisions" item listing the rules and derived tolerances you chose, one line each. All `Status: PENDING`; append new items only.
 
 ## Audit feedback
 Given empty coverage rows or surviving mutants, add a **rule** that activates that term or kills that mutant.

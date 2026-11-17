@@ -102,3 +102,9 @@ def test_other_bash(two_codes, agent, cmd, allowed):
 def test_inactive_without_foundry(project):
     ok, _ = hook("guard.py", project, call("foundry:developer", "Bash", command="ls -R"))
     assert ok
+
+
+@pytest.mark.parametrize("agent", ["foundry:spec-writer", "foundry:test-designer", "foundry:auditor", "foundry:developer"])
+def test_pages_are_orchestrator_only(two_codes, agent):
+    ok, _ = hook("guard.py", two_codes, call(agent, "Write", file_path=str(two_codes / "foundry/alpha/pages/spec.html")))
+    assert not ok

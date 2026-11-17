@@ -75,3 +75,16 @@ def test_agent_can_append_pending(project, review):
 def test_bash_cannot_modify_review(project, cmd, allowed):
     ok, _ = hook("review_gate.py", project, call(None, "Bash", command=cmd))
     assert ok == allowed
+
+
+def test_grouped_agent_decisions_item_parses(project):
+    """The grouped 'Agent decisions' item has a nested list; only its own Status line counts."""
+    p = project / "REVIEW.md"
+    text = ("# Review\n\n- Review status: IN REVIEW\n\n"
+            "## [1/2] Which outputs? (slide 2)\n- Tag: 🔴\n- Status: APPROVED\n- Verified: n/a\n\n"
+            "## [2/2] Agent decisions\n- Tag: 🟡\n- Items:\n  - (slide 3) Status: PENDING-like text in a line\n"
+            "  - (slide 5) tolerances derived\n- Status: APPROVED\n- Verified: n/a\n")
+    p.write_text(text)
+    ok, err = hook("review_gate.py", project, call(None, "Write", file_path=str(p),
+                                                  content=text.replace("IN REVIEW", "APPROVED (x)")))
+    assert ok, err

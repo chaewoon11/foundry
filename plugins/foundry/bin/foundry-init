@@ -38,7 +38,7 @@ def main():
         sys.exit(f"foundry/{a.code} already exists")
 
     for sub in ["spec/issues", "tests/anchor", "tests/generators", "tests/public", "tests/holdout",
-                "tests/external", "tests/regression", "reference", "audit/private", "scripts", "progress"]:
+                "tests/external", "tests/regression", "reference", "audit/private", "scripts", "progress", "pages"]:
         os.makedirs(os.path.join(cd, sub))
     for f in os.listdir(os.path.join(PLUGIN, "skills", "spec", "templates")):
         shutil.copy(os.path.join(PLUGIN, "skills", "spec", "templates", f), os.path.join(cd, "spec", f))

@@ -12,7 +12,7 @@ Prerequisite: `CODE/spec/REVIEW.md` approved.
 1. If the spec plans an oracle: hand to `foundry:oracle` — implement `CODE/reference/` per the oracle contract; check `CODE/scripts/run-oracle` runs.
 2. Hand to `foundry:test-designer` — rules and cases per the verification level, `CODE/tests/REVIEW.md` drafted. Steps 1 and 2 may run in parallel; the test designer generates oracle cases last.
 3. Report when each finishes; if a spec issue appears, stop and brief it.
-4. **Brief the test rules** (`foundry:brief`): what each rule checks, which terms, the tolerance and why. This is the main point where the user's trust enters. Apply changes through `foundry:test-designer`, re-brief, approve when the user confirms.
+4. **Brief the test rules** (`foundry:brief`): extend the spec page into `CODE/pages/tests.html`, filling the verification map with the actual rules (what each checks, which terms, which bugs it catches); then only the user's decisions and the grouped agent decisions. This is the main point where the user's trust enters. Apply changes through `foundry:test-designer`, re-brief, approve when the user confirms.
 
 Ends when `CODE/tests/REVIEW.md` is approved. foundry:start then continues with `foundry:develop`.
 

@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CODE — STAGE briefing</title>
+<!--
+  foundry briefing page template. Copy to foundry/<code>/pages/<stage>.html and fill in.
+  - One <section class="slide"> per idea, each ending with a <p class="takeaway">.
+  - Formulas in LaTeX: \( ... \) inline, \[ ... \] display (MathJax 3, SVG output).
+  - Figures as inline <svg>; use the CSS variables below for colours so both themes work.
+  - Status chips: <span class="chip new">new</span>, .unchanged, .shared, .open (🔴), .proposed (🟡), .agreed (🟢).
+-->
+<script>
+  window.MathJax = { tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] }, svg: { fontCache: 'global' } };
+</script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-svg.min.js"></script>
+<style>
+  :root {
+    --bg: #fbfaf7; --surface: #ffffff; --ink: #1f1f1e; --ink-2: #55544f; --muted: #8a897f;
+    --rule: #e6e5e0; --accent: #2a78d6; --new: #1baf7a; --open: #e34948; --proposed: #c98500;
+    --code-bg: #f3f2ee;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #1a1a19; --surface: #232321; --ink: #f0efec; --ink-2: #c3c2b7; --muted: #8f8e85;
+      --rule: #3a3a37; --accent: #3987e5; --new: #199e70; --open: #e66767; --proposed: #eda100;
+      --code-bg: #2b2b29;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #1a1a19; --surface: #232321; --ink: #f0efec; --ink-2: #c3c2b7; --muted: #8f8e85;
+    --rule: #3a3a37; --accent: #3987e5; --new: #199e70; --open: #e66767; --proposed: #eda100;
+    --code-bg: #2b2b29;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink);
+         font: 16px/1.55 system-ui, -apple-system, "Segoe UI", sans-serif; }
+  header { padding: 28px 16px 8px; max-width: 920px; margin: 0 auto; }
+  header h1 { margin: 0 0 4px; font-size: 1.6rem; }
+  header p { margin: 0; color: var(--ink-2); }
+  nav { position: sticky; top: 0; z-index: 2; background: var(--bg); border-bottom: 1px solid var(--rule); }
+  nav ol { display: flex; gap: 4px; overflow-x: auto; list-style: none; margin: 0 auto; padding: 8px 16px; max-width: 920px; }
+  nav a { display: block; white-space: nowrap; padding: 4px 10px; border-radius: 999px; color: var(--ink-2);
+          text-decoration: none; font-size: .9rem; }
+  nav a:hover { background: var(--code-bg); color: var(--ink); }
+  main { max-width: 920px; margin: 0 auto; padding: 8px 16px 64px; }
+  .slide { background: var(--surface); border: 1px solid var(--rule); border-radius: 12px;
+           padding: 20px 22px; margin: 20px 0; scroll-margin-top: 56px; }
+  .slide h2 { margin: 0 0 12px; font-size: 1.25rem; }
+  .slide h2 .n { color: var(--muted); font-weight: 500; margin-right: 6px; }
+  .takeaway { margin: 16px 0 0; padding-top: 12px; border-top: 1px dashed var(--rule); color: var(--ink-2); }
+  .takeaway::before { content: "Takeaway — "; font-weight: 600; color: var(--ink); }
+  pre, code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .88rem; }
+  pre { background: var(--code-bg); padding: 12px 14px; border-radius: 8px; overflow-x: auto; }
+  table { border-collapse: collapse; width: 100%; font-size: .93rem; }
+  .table-wrap { overflow-x: auto; }
+  th, td { text-align: left; padding: 6px 8px; border-bottom: 1px solid var(--rule); vertical-align: top; }
+  th { color: var(--ink-2); font-weight: 600; }
+  .chip { display: inline-block; font-size: .75rem; padding: 1px 8px; border-radius: 999px;
+          border: 1px solid currentColor; margin-left: 4px; }
+  .chip.new { color: var(--new); } .chip.unchanged { color: var(--muted); } .chip.shared { color: var(--accent); }
+  .chip.open { color: var(--open); } .chip.proposed { color: var(--proposed); } .chip.agreed { color: var(--new); }
+  .mjx-container[display="true"] { overflow-x: auto; overflow-y: hidden; }
+  svg.figure { max-width: 100%; height: auto; }
+  footer { max-width: 920px; margin: 0 auto; padding: 0 16px 40px; color: var(--muted); font-size: .85rem; }
+</style>
+</head>
+<body>
+<header>
+  <h1>CODE — STAGE briefing</h1>
+  <p>One-line purpose of this code. Verification level: LEVEL. Status: e.g. "spec briefing, 1 of 3 decisions taken".</p>
+</header>
+<nav><ol>
+  <li><a href="#conventions">1 Conventions</a></li>
+  <li><a href="#problem">2 Problem</a></li>
+  <li><a href="#algorithm">3 Algorithm</a></li>
+  <li><a href="#structure">4 Code structure</a></li>
+  <li><a href="#verification">5 Verification</a></li>
+  <li><a href="#scope">6 Scope</a></li>
+  <li><a href="#decisions">7 Decisions</a></li>
+</ol></nav>
+<main>
+
+<section class="slide" id="conventions">
+  <h2><span class="n">1</span>Conventions</h2>
+  <p>Units, signs, normalisations, indices. Example: energies in Hartree, \(\hbar = m = 1\).</p>
+  <p class="takeaway">The one convention most likely to cause a factor-of-2 bug.</p>
+</section>
+
+<section class="slide" id="problem">
+  <h2><span class="n">2</span>Problem</h2>
+  <p>Physical picture first (figure), then the equation:</p>
+  \[ -\tfrac12 \psi''(x) + V(x)\,\psi(x) = E\,\psi(x) \]
+  <p class="takeaway">What goes in, what comes out.</p>
+</section>
+
+<section class="slide" id="algorithm">
+  <h2><span class="n">3</span>Algorithm</h2>
+<pre>1. build grid x_j = a + j h           # unchanged
+2. assemble H (tridiagonal)           # new: periodic corner terms
+3. diagonalise, keep lowest n         # unchanged
+4. normalise                          # unchanged</pre>
+  <p class="takeaway">Which steps are new and which must stay as they are.</p>
+</section>
+
+<section class="slide" id="structure">
+  <h2><span class="n">4</span>Code structure</h2>
+  <div class="table-wrap"><table>
+    <tr><th>Component</th><th>In → out</th><th>Terms</th><th></th></tr>
+    <tr><td><code>solve(...)</code></td><td>V, box, n, N → energies, ψ</td><td>T1 T2 B C</td><td><span class="chip unchanged">unchanged</span></td></tr>
+  </table></div>
+  <p class="takeaway">The components the tests will call.</p>
+</section>
+
+<section class="slide" id="verification">
+  <h2><span class="n">5</span>Verification map</h2>
+  <div class="table-wrap"><table>
+    <tr><th>Component / term</th><th>Typical bugs</th><th>Caught by</th></tr>
+    <tr><td>kinetic term (T1)</td><td>missing ½, wrong h</td><td>② transformations, ④ order, ⑤ oracle</td></tr>
+  </table></div>
+  <p>Weak spots, where reference answers come from and why they are independent, and the pass bar of the level.</p>
+  <p class="takeaway">Every term is covered by at least N independent kinds.</p>
+</section>
+
+<section class="slide" id="scope">
+  <h2><span class="n">6</span>Scope in layers</h2>
+  <div class="table-wrap"><table>
+    <tr><th>Layer</th><th>Inputs</th><th>What happens</th></tr>
+    <tr><td>guaranteed</td><td>…</td><td>verified to tolerance</td></tr>
+    <tr><td>runs, not guaranteed</td><td>…</td><td>result returned, no promise</td></tr>
+    <tr><td>rejected</td><td>…</td><td>error raised</td></tr>
+    <tr><td>not built</td><td>…</td><td>—</td></tr>
+  </table></div>
+  <p class="takeaway">What the user can rely on.</p>
+</section>
+
+<section class="slide" id="decisions">
+  <h2><span class="n">7</span>Decisions</h2>
+  <p><strong>Decided by the user:</strong> … <span class="chip agreed">agreed</span></p>
+  <p><strong>Open questions</strong> (each points to its slide): … <span class="chip open">open</span></p>
+  <p><strong>Agent decisions</strong> (approved as one list; any line can be vetoed): …</p>
+  <p class="takeaway">What is still needed from the user.</p>
+</section>
+
+</main>
+<footer>foundry briefing page · CODE · STAGE · generated DATE · record: foundry/CODE/STAGE/REVIEW.md</footer>
+</body>
+</html>

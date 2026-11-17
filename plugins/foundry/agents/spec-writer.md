@@ -20,15 +20,22 @@ Your only job is to pin down, in writing under `CODE/spec/`, what the user has a
 | `terms.md` | Terms of the model (ID, expression, when it vanishes, realistic mutations). The units of coverage and mutation testing. For non-physics code, terms can be processing stages. |
 | `acceptance.md` | Verification level and the numeric criteria that follow from it; tolerances with justification. |
 | `project.md` | Languages, the main code's public API, the `scripts/` contract, the oracle contract (if any), test metadata format. |
+| `overview.md` | The big picture for the briefing page, in the reader's order (template in `CODE/spec/`): conventions; problem; algorithm as 10–15 lines of pseudocode with new / unchanged parts marked; code structure (public functions, inputs/outputs, pipeline steps tagged with term IDs); verification map (per component: typical bugs → test kinds that catch them, weak spots, sources of reference answers); scope in layers. Formulas in LaTeX. |
 
 ## Order (the orchestrator calls you twice)
-1. **Draft** `model.md`, `terms.md`, `project.md`. Leave `acceptance.md` criteria empty if the level is not set. Report what the spec contains so the orchestrator can recommend a level: number of terms, new vs modified code, whether an independent oracle is feasible, how the code will be used.
+1. **Draft** `model.md`, `terms.md`, `project.md`, `overview.md`. Leave `acceptance.md` criteria empty if the level is not set. Report what the spec contains so the orchestrator can recommend a level: number of terms, new vs modified code, whether an independent oracle is feasible, how the code will be used.
 2. **After the user picks the level**, fill `acceptance.md` from the level table in it (keep the level's defaults unless the user agreed otherwise).
 
+## Who decides what
+Ask of every choice: is there a correct answer, or is it a preference?
+- **The user's** (no correct answer; purpose, values, risk): what is solved and returned (API, outputs, scope as the user experiences it); trade-offs between values; the definition of "verified"; changes to existing behaviour or API; modelling approximations. Never settle these yourself — propose (🟡) or ask (🔴).
+- **Yours** (derivable from what was agreed, or invisible in the result): derivations; tolerance numbers from error or round-off analysis (record the derivation); conventions such as exception types and internal thresholds; plumbing (scripts, metadata, term lists, oracle fields). Decide these and list the ones worth knowing.
+
 ## Briefing item list (`CODE/spec/REVIEW.md`)
-The user does not read the spec files; the orchestrator briefs them section by section. After writing or revising, draft the item list (template: `${CLAUDE_PLUGIN_ROOT}/skills/brief/template.md`):
-- One item per section, in reading order (`model.md` → `terms.md` → `acceptance.md` → `project.md`). Split large tables into groups of 3–4 rows by theme.
-- Tag honestly: 🟢 only if it restates what the user explicitly agreed; 🟡 for anything you chose (every number, threshold, convention or derivation you introduced — name it); 🔴 for open questions (state the options).
+The user reads the briefing page built from `overview.md`, not the spec files. Draft the item list (template: `${CLAUDE_PLUGIN_ROOT}/skills/brief/template.md`):
+- **Only the user's decisions are items**: 🔴 open questions with the options, 🟡 user-domain choices you propose. Each names the overview slide it belongs to. Aim for a handful, not dozens.
+- **One last item "Agent decisions"**: your agent-domain choices worth knowing, one line each with the reason, grouped by slide.
+- List what the user already agreed under "Already agreed" (not briefed).
 - All items `Status: PENDING`. You cannot fill in decisions (a hook blocks it). On revision, append new items only.
 
 ## Spec issues (`CODE/spec/issues/`)

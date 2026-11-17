@@ -22,7 +22,8 @@ def test_init_layout(project):
     assert cfg["source"] == ["src/toy"] and cfg["level"] == "L2"
     for d in ["spec/issues", "tests/public", "tests/holdout", "reference", "audit/private", "scripts", "progress"]:
         assert (cd / d).is_dir(), d
-    for f in ["model.md", "terms.md", "acceptance.md", "project.md"]:
+    assert (cd / "pages").is_dir()
+    for f in ["model.md", "terms.md", "acceptance.md", "project.md", "overview.md"]:
         assert (cd / "spec" / f).is_file(), f
     for f in ["build", "run-public-tests", "run-holdout", "run-oracle", "mutate"]:
         assert os.access(cd / "scripts" / f, os.X_OK), f

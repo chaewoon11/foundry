@@ -10,7 +10,7 @@ Goal: fix **what is solved, how it is judged, and when it is done** — before a
 
 ## new (default)
 1. **Discuss the main choices** with the user: equations, units and conventions, scope, boundary conditions, method, whether an independent oracle is possible, language, and — for existing code — what is new and what must stay unchanged. Offer defaults; let the user pick.
-2. **Draft** — hand to `foundry:spec-writer`, quoting the agreed choices: write `model.md`, `terms.md`, `project.md`; leave acceptance criteria for later.
+2. **Draft** — hand to `foundry:spec-writer`, quoting the agreed choices: write `model.md`, `terms.md`, `project.md` and `overview.md`; leave acceptance criteria for later.
 3. **Verification level** — recommend one with reasons from the draft (number of terms, new vs modified code, oracle feasibility, how the code will be used, expected cost) and let the user pick:
 
    | | L1 light | L2 standard | L3 strict |
@@ -26,7 +26,7 @@ Goal: fix **what is solved, how it is judged, and when it is done** — before a
 
    Write the chosen level into `CODE/foundry.json` (`"level"`) and commit.
 4. **Criteria** — hand to `foundry:spec-writer` again: fill `acceptance.md` from the level, and draft `CODE/spec/REVIEW.md`.
-5. **Brief** the spec (`foundry:brief`, depth by level). Apply the collected edits through `foundry:spec-writer`, re-brief changed items, approve when the user confirms.
+5. **Brief** the spec (`foundry:brief`): first the page `CODE/pages/spec.html` (big picture, no approval), then only the user's decisions and one grouped list of agent decisions. Apply the collected edits through `foundry:spec-writer`, re-brief changed items, approve when the user confirms.
 6. **Scripts** — you (not an agent) adapt `CODE/scripts/` to the contract in `project.md`: `build`, `run-public-tests`, `run-oracle` (if there is an oracle) are project-specific; `run-holdout`, `holdout_summary.py` and `mutate` are templates already in place — adjust paths and the test runner if needed. Every script must honour `FOUNDRY_SRC` (see `project.md`) so mutation testing can point the tests at a copy of the main code. Tell the user in one line each what the scripts do, and commit.
 
 Ends when `CODE/spec/REVIEW.md` is approved and the scripts run. foundry:start then continues with `foundry:design-tests`.
