@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+# TEMPLATE (Python): byte-compile the main code and import-check it. Adapt to the project.
+set -euo pipefail
+source "$(dirname "$0")/_common.sh"
+cd "$ROOT"
+for s in $SOURCES; do python3 -m compileall -q "$SRC_ROOT/$s"; done
+PYPATH=$(for s in $SOURCES; do printf '%s:' "$SRC_ROOT/$s"; done)
+PYTHONPATH="$PYPATH" python3 -c "import sys; print('build: ok')"   # replace with: import <your_package>

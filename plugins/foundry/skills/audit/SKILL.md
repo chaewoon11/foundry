@@ -1,22 +1,21 @@
 ---
 name: audit
-description: Stage 4 — exit-criteria judgment. The auditor builds the coverage table, runs mutation testing and the holdout set, and issues a verdict that routes the workflow.
-argument-hint: "[all | coverage | mutation | holdout]"
-disable-model-invocation: true
+description: foundry stage 4 for one code — the auditor judges the test set (coverage, mutation testing, holdout as the level requires) and issues a verdict that routes the run. Usually run from the foundry skill.
+argument-hint: "<code> [all | coverage | mutation | holdout]"
 ---
 
-# Stage 4: Exit-criteria judgment
+# Stage 4: audit (folder `foundry/<code>/` = CODE)
 
-Prerequisite: public tests pass (`/develop`).
+Prerequisite: public tests pass.
 
-1. Delegate to the `auditor` agent (default: all three judgments; or only `$ARGUMENTS`). It writes `audit/coverage.md`, `audit/mutation.md`, `audit/holdout.md`, `audit/verdict.md`.
-2. Read `audit/verdict.md` and route:
+1. Hand to `foundry:auditor` (all judgments the level requires, or only the one asked). Remind it to keep `CODE/progress/auditor.md` and to resume from existing artifacts. While it runs, check that file now and then; if it stops changing for a long time, ask the auditor, and tell the user if it does not answer.
+2. Read `CODE/audit/verdict.md` and route:
 
-| Verdict | Next step |
+| Verdict | Next |
 |---|---|
-| PASS | `/report` |
-| FAIL-COVERAGE / FAIL-MUTATION | `/design-tests fix-audit`, then `/develop`, then `/audit` |
-| FAIL-HOLDOUT | `/develop` with only the failing kinds; tell the human where the auditor suspects fitting (`audit/private/holdout-diagnosis.md`) |
-| SPEC-ISSUE | `/spec issues` |
+| PASS | `foundry:report` |
+| FAIL-COVERAGE / FAIL-MUTATION | explain and ask; usually `foundry:design-tests fix-audit`, then develop, then audit again |
+| FAIL-HOLDOUT | explain and ask; usually `foundry:develop` with the failing kinds only, then audit again; tell the user where the auditor suspects fitting |
+| SPEC-ISSUE | `foundry:spec` issues mode |
 
-3. Summarize for the human: the coverage table, kill rate (overall and weakest term), holdout pass/fail counts, the verdict, and the next step.
+3. Summarise for the user: coverage (term × kind), kill rate overall and weakest term, survivors, holdout counts, verdict, next step.

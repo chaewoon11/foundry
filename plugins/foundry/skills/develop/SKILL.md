@@ -1,23 +1,19 @@
 ---
 name: develop
-description: Stages 2–3 — the developer agent implements src/ and iterates on public tests. Stops and routes back to /spec when a spec issue is filed.
-argument-hint: "[optional focus, e.g. a failing test kind]"
-disable-model-invocation: true
+description: foundry stage 3 for one code — the developer implements or changes the main code until the public tests pass; stops on spec issues. Usually run from the foundry skill.
+argument-hint: "<code> [focus]"
 ---
 
-# Stages 2–3: Implementation and fixing
+# Stage 3: develop (folder `foundry/<code>/` = CODE)
 
-Prerequisite: approved test set (`/design-tests`).
+Prerequisite: `CODE/tests/REVIEW.md` approved.
 
-1. Delegate to the `developer` agent with: "Implement / fix `src/` until `./scripts/run-public-tests` passes. Follow your escalation rules." Add `$ARGUMENTS` as focus if given.
-   - If the last audit verdict was **FAIL-HOLDOUT**, pass only the failing test *kinds* from `audit/holdout.md` — never anything from `audit/private/`.
-2. When the developer returns, check:
-   - **New files in `spec/issues/`** → stop. Tell the human, and run `/spec issues`. Do not let the developer continue on its own interpretation.
-   - **Public tests all pass** → report and suggest `/audit`.
-   - **Still failing** → report progress (pass count, what changed, new regression tests) and ask the human whether to continue.
-3. Report briefly after each developer round: tests passing / total, files changed, regression tests added, issues filed.
+1. Hand to `foundry:developer`: "Implement / change the main code until `foundry/<code>/scripts/run-public-tests` passes. Follow your escalation rules." Add a focus if given.
+   - After a **FAIL-HOLDOUT** verdict pass only the failing test *kinds* from `CODE/audit/holdout.md`, never anything from `CODE/audit/private/`.
+2. When it returns:
+   - New file in `CODE/spec/issues/` → stop; brief it (`foundry:spec` issues mode).
+   - Public tests pass → report (passing / total, files changed, regression tests added, any blocked tool calls) and continue with `foundry:audit`.
+   - Still failing → report progress and ask the user whether to continue.
 
 ## Never
-- Edit tests, tolerances or the spec to make things pass.
-- Change the solution method (algorithms, mixing scheme, ...) inside this loop — that is a spec issue.
-- Show the developer holdout cases, generators, the oracle code or `audit/private/`.
+Edit tests, tolerances or the spec to make things pass; change the solution method inside this loop (that is a spec issue); show the developer holdout tests, generators, oracle code or `CODE/audit/private/`.

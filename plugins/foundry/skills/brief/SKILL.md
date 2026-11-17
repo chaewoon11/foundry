@@ -1,7 +1,7 @@
 ---
 name: brief
 description: Brief the human on a set of documents section by section and record a decision for each item, so the human reviews everything without reading the files. Use right after an agent has written documents that need human approval (spec, test rules, spec issues), or when the human asks to start or continue a briefing/review.
-argument-hint: "[spec | tests | <path to REVIEW.md>]"
+argument-hint: "<code> [spec | tests | issues | report]"
 ---
 
 # Briefing: section-by-section human review
@@ -9,7 +9,7 @@ argument-hint: "[spec | tests | <path to REVIEW.md>]"
 The human should not have to open the files. You walk them through every section, one item at a time, and record their decision immediately. Nothing is approved until every item has a decision.
 
 ## Files
-- The review record lives next to the documents: `spec/REVIEW.md`, `tests/REVIEW.md`, ... Template: `.claude/skills/brief/template.md`.
+- The review record lives next to the documents in the code folder `foundry/<code>/`: `spec/REVIEW.md`, `tests/REVIEW.md`, `spec/issues/REVIEW.md`, `audit/REVIEW.md`. Template: `${CLAUDE_SKILL_DIR}/template.md`.
 - The review record is the single source of truth for approval. Its header line `- Review status:` is `IN REVIEW` or `APPROVED`.
 
 ## 1. Prepare (only if the review record has no items yet)
@@ -18,6 +18,13 @@ The human should not have to open the files. You walk them through every section
 3. Split large tables into groups of 3–4 rows by theme, one item per group.
 4. Order: follow the documents' reading order. Put open questions (🔴) in the item where they belong, not at the end.
 5. Tags: 🟢 agreed by the human already · 🟡 proposed by an agent · 🔴 open question needing a decision. An item takes the most severe tag of its contents.
+
+## Depth by verification level (`foundry/<code>/foundry.json`)
+- **L1:** one summary message of all items; then only the 🔴 items one by one; the user may approve the rest at once.
+- **L2:** 🟡 and 🔴 items one by one; consecutive 🟢 items offered together.
+- **L3:** every item one by one.
+If the level is not set yet (spec briefing of a new code), use L3 depth for 🔴 and 🟡 items.
+The user can always ask to open any grouped item, or to approve several at once.
 
 ## 2. Brief, one item per message
 Open with one message: what was written, how many documents and items, the order. Then for each item:
@@ -58,7 +65,7 @@ Do not edit the documents during the briefing. Collect the changes.
 For each CHANGED item, show the human the resulting text in plain language ("Decision X is now reflected as …"). If the human confirms, set `Verified: yes`. If not, send it back to the author.
 
 ## 6. Approve
-Only when the human explicitly approves the whole review: set `- Review status: APPROVED (<date>)`. A hook blocks this while any item is PENDING or DEFERRED, or any CHANGED item is not `Verified: yes`. Never work around the hook. Then return to the calling stage skill for the next step.
+Only when the human explicitly approves the whole review: set `- Review status: APPROVED (<date>)`. A hook blocks this while any item is PENDING or DEFERRED, or any CHANGED item is not `Verified: yes`. Never work around the hook. Commit, then return to the calling stage skill, which continues to the next stage.
 
 ## Resuming
 If a review record is `IN REVIEW`, resume at the first PENDING item. Start with a one-line recap: "Resuming the spec briefing at [6/17]; 5 decided so far."

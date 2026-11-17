@@ -1,29 +1,35 @@
 ---
 name: spec
-description: Stage 1 — write or revise the specification with the human (model, terms, acceptance criteria, project contract), then brief it for approval. Also resolves open issues in spec/issues/.
-argument-hint: "[new | issues]"
-disable-model-invocation: true
+description: foundry stage 1 for one code — settle the spec with the user, recommend and set the verification level, write the acceptance criteria, brief everything, and put the scripts in place. Also handles spec issues. Usually run from the foundry skill.
+argument-hint: "<code> [new | issues]"
 ---
 
-# Stage 1: Specification and agreement
+# Stage 1: spec (code: the one named, folder `foundry/<code>/` = CODE)
 
-Goal: fix **what is solved, how it is judged, and when we are done** — before any code exists. Tests chosen after the code tend to lean toward what already passes.
+Goal: fix **what is solved, how it is judged, and when it is done** — before any code exists or changes.
 
-## Mode: `new` (default when `spec/` is empty)
-1. Discuss the problem with the human until the main choices are clear (equation, units, boundary conditions, method, oracle method, language, acceptance numbers). Offer defaults; let the human pick.
-2. Copy the templates from `.claude/skills/spec/templates/` into `spec/` if they are not there yet.
-3. Delegate to the `spec-writer` agent, quoting the agreed decisions. It writes the four spec files and drafts the item list in `spec/REVIEW.md`.
-4. **Immediately start the briefing** (`brief` skill on `spec/`): "The spec is written. I'll brief you starting with model.md. Item 1: …". Do not ask the human to read the files.
-5. After all items are decided: delegate the collected edits to `spec-writer`, re-brief the changed items, and approve `spec/REVIEW.md` once the human confirms.
-6. Create the `scripts/` entry points described in `spec/project.md` (main session only — no agent role may write `scripts/`):
-   `scripts/build`, `scripts/run-public-tests`, `scripts/run-holdout`, `scripts/run-oracle`, `scripts/mutate`. Show the human what each does in one line each.
-7. If the developer needs extra Bash commands, add regexes to `developer.bash_allow` in `.claude/hooks/policy.json` (human approval required).
+## new (default)
+1. **Discuss the main choices** with the user: equations, units and conventions, scope, boundary conditions, method, whether an independent oracle is possible, language, and — for existing code — what is new and what must stay unchanged. Offer defaults; let the user pick.
+2. **Draft** — hand to `foundry:spec-writer`, quoting the agreed choices: write `model.md`, `terms.md`, `project.md`; leave acceptance criteria for later.
+3. **Verification level** — recommend one with reasons from the draft (number of terms, new vs modified code, oracle feasibility, how the code will be used, expected cost) and let the user pick:
 
-## Mode: `issues`
-1. List open files in `spec/issues/` (no `## Resolution` section).
-2. Brief each issue as one item (`brief` skill, review record `spec/issues/REVIEW.md`): what was found, where, the possible interpretations, your view. Record the human's decision.
-3. Delegate to `spec-writer` to update the spec and append `## Resolution` to each issue; re-brief the changes.
-4. Report which downstream artifacts must be redone (tests → `/design-tests tests`, oracle → `/design-tests oracle`, code → `/develop`).
+   | | L1 light | L2 standard | L3 strict |
+   |---|---|---|---|
+   | Use for | one-off scripts, analysis tools | general research code | core methods in papers, long-lived code |
+   | Test kinds | ① + ② | ①②③ + ④ or ⑤ | ①–⑥ as available |
+   | Cases per rule | 3–5 | ~10 | ≥ 20 |
+   | Holdout | none | some rules | all rules |
+   | Oracle | none | optional | required |
+   | Mutation testing | none | key terms, ≥ 70 % | all terms, ≥ 90 % |
+   | Coverage | 1 kind per term | 2 kinds per term | ≥ 2 kinds per term |
+   | Briefing | summary + 🔴 items | 🟡🔴 one by one, 🟢 grouped | every item |
 
-## Exit condition
-`spec/REVIEW.md` is APPROVED and the `scripts/` entry points exist. Next: `/design-tests`.
+   Write the chosen level into `CODE/foundry.json` (`"level"`) and commit.
+4. **Criteria** — hand to `foundry:spec-writer` again: fill `acceptance.md` from the level, and draft `CODE/spec/REVIEW.md`.
+5. **Brief** the spec (`foundry:brief`, depth by level). Apply the collected edits through `foundry:spec-writer`, re-brief changed items, approve when the user confirms.
+6. **Scripts** — you (not an agent) adapt `CODE/scripts/` to the contract in `project.md`: `build`, `run-public-tests`, `run-oracle` (if there is an oracle) are project-specific; `run-holdout`, `holdout_summary.py` and `mutate` are templates already in place — adjust paths and the test runner if needed. Every script must honour `FOUNDRY_SRC` (see `project.md`) so mutation testing can point the tests at a copy of the main code. Tell the user in one line each what the scripts do, and commit.
+
+Ends when `CODE/spec/REVIEW.md` is approved and the scripts run. The foundry skill then continues with `foundry:design-tests`.
+
+## issues
+For each open file in `CODE/spec/issues/` (no `## Resolution`): brief it as one item (record in `CODE/spec/issues/REVIEW.md`): what was found, where, the options, your view. After the user decides, hand to `foundry:spec-writer` to update the spec and append `## Resolution`; re-brief the changes; then redo what the resolution names (tests, oracle, code) through the matching stage.

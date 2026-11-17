@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+# TEMPLATE (Python + pytest): run the public tests. Extra arguments go to pytest. Adapt to the project.
+set -uo pipefail
+source "$(dirname "$0")/_common.sh"
+cd "$CODE"
+dirs=()
+for d in tests/anchor tests/public tests/external tests/regression; do [ -d "$d" ] && dirs+=("$d"); done
+[ ${#dirs[@]} -gt 0 ] || { echo "run-public-tests: no public tests yet"; exit 1; }
+PYPATH=$(for s in $SOURCES; do printf '%s:' "$SRC_ROOT/$s"; done)
+PYTHONPATH="$PYPATH" exec python3 -m pytest "${dirs[@]}" -p no:cacheprovider "$@"

@@ -1,18 +1,12 @@
 ---
 name: report
-description: Write the final verification report after a PASS verdict.
-disable-model-invocation: true
+description: foundry stage 5 for one code — brief the verification report after a PASS verdict and get the user's approval. Usually run from the foundry skill.
+argument-hint: "<code>"
 ---
 
-# Verification report
+# Stage 5: report (folder `foundry/<code>/` = CODE)
 
-1. Check `audit/verdict.md` is **PASS** and newer than the last change to `src/`, `tests/` and `spec/`. If not, stop and suggest `/audit`.
-2. Delegate to the `auditor` agent to write `audit/report.md`:
-   - Scope (from `spec/model.md`) and what is explicitly out of scope
-   - Acceptance criteria (from `spec/acceptance.md`) and measured values
-   - Coverage table (term × test kind)
-   - Mutation kill rate, per term and overall; surviving mutants and why they are acceptable, if any
-   - Holdout results
-   - Resolved spec issues and the decisions taken
-   - Remaining limitations (untested ranges, known multiple solutions, ...)
-3. Show the human the report.
+1. Check `CODE/audit/verdict.md` is PASS and that nothing in the spec, tests or main code changed after the audit (`foundry-status` says so). Otherwise go back to the audit.
+2. If `CODE/audit/report.md` is missing or incomplete, hand to `foundry:auditor` to write it (sections listed in its definition, including the verified versions).
+3. Brief it (`foundry:brief`, record in `CODE/audit/REVIEW.md`): scope and results; remaining limitations (with the option to fix test-set problems first); anything the report does not yet record. Apply changes through `foundry:auditor`, re-brief, approve when the user confirms.
+4. Tell the user the run is complete: verdict, verified commit, report location.

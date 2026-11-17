@@ -1,13 +1,15 @@
 #!/usr/bin/env bash
-# Run the holdout set. stdout carries ONLY per-kind pass/fail counts; details go to audit/private/.
-# A skipped holdout test counts as a failure: holdout cases must be valid by construction.
+# Run the holdout tests. stdout carries ONLY per-kind pass/fail counts; details go to $HOLDOUT_LOG_DIR
+# (default audit/private/). A skipped holdout test counts as a failure. Template for Python + pytest.
 set -uo pipefail
-cd "$(dirname "$0")/.."
-mkdir -p audit/private
+source "$(dirname "$0")/_common.sh"
+cd "$CODE"
+logdir="${HOLDOUT_LOG_DIR:-$CODE/audit/private}"; mkdir -p "$logdir"
 summary="$(mktemp)"
-HOLDOUT_SUMMARY="$summary" PYTHONPATH="${SRC_DIR:-src}:scripts" \
-  python3 -m pytest tests/holdout -p holdout_summary -q \
-  --junitxml=audit/private/holdout-junit.xml >audit/private/holdout.log 2>&1
+PYPATH=$(for s in $SOURCES; do printf '%s:' "$SRC_ROOT/$s"; done)
+HOLDOUT_SUMMARY="$summary" PYTHONPATH="$PYPATH$CODE/scripts" \
+  python3 -m pytest tests/holdout -p holdout_summary -p no:cacheprovider -q \
+  --junitxml="$logdir/holdout-junit.xml" >"$logdir/holdout.log" 2>&1
 cat "$summary"
 fails="$(awk '/^total /{split($3,a,"="); print a[2]}' "$summary")"
 rm -f "$summary"

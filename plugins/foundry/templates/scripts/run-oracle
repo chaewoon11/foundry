@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+# TEMPLATE: run the reference implementation. JSON in (file argument or stdin), JSON out. Adapt to the project.
+set -euo pipefail
+source "$(dirname "$0")/_common.sh"
+exec python3 -I "$CODE/reference/oracle.py" "$@"
