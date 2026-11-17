@@ -42,7 +42,7 @@ footer { margin-top: 44px; color: var(--muted); font-size: .82rem; }
 
 <div class="wrap">
   <h1>foundry workflow map</h1>
-  <p class="lead">How one run of the plugin goes today (dev branch, with the big-picture briefing and "who decides what"). Orange = the user, blue = agents, green = what ends a stage, red dashed = going back. The dashed grey box is the proposed stage 0, not built yet.</p>
+  <p class="lead">How one run of the plugin goes today (dev branch, with the big-picture briefing and "who decides what"). Orange = the user, blue = agents, green = what ends a stage, red dashed = going back. The dashed grey boxes are the proposed stage 0 (understand the theory before building), not built yet.</p>
 
   <h2>1. One run</h2>
   <p class="sub">Started with <code>/foundry:start</code> or "foundry로 ~ 하자". The orchestrator (the main session) moves on by itself after each approval.</p>
@@ -50,10 +50,19 @@ footer { margin-top: 44px; color: var(--muted); font-size: .82rem; }
 <pre class="mermaid">
 flowchart TD
   U(["User: /foundry:start + what to build"]):::user
-  S0["Stage 0 — proposed<br/>goal · theory review · features"]:::proposed
+
+  subgraph ST0["0 · Understand before building — proposed, not built yet"]
+    G0["0a Goal (chat)<br/>what to compute and why · inputs, outputs, units"]:::proposed
+    TH["0b theorist<br/>theory the code implements: conventions, physical picture,<br/>approximations, derivation down to the numerical problem,<br/>solvable limits, symmetries · numbered claims"]:::proposed
+    CK["0b theory-checker<br/>re-derives each claim independently,<br/>symbolic checks (sympy)"]:::proposed
+    BT[/"0b Briefing: theory page, lab-meeting style<br/>user understands it, decides approximations and disputed claims"/]:::proposed
+    FE["0c Features (chat)<br/>order · dependencies · level each"]:::proposed
+    G0 --> TH --> CK --> BT --> FE
+  end
   INIT["foundry-init<br/>creates foundry/CODE"]
-  U -.-> S0 -.-> INIT
-  U --> INIT
+  U -.-> G0
+  FE -. "one run per feature, citing the theory" .-> INIT
+  U -->|today| INIT
 
   subgraph ST1["1 · Spec"]
     SW["spec-writer<br/>model · terms · project · overview"]:::agent
