@@ -134,7 +134,15 @@ plugins/foundry/
   hooks/         hooks.json, guard.py + policy.json (barriers), review_gate.py (approval gate)
   bin/           foundry-status, foundry-init
   templates/     script templates
+tests/           automated tests of the plugin itself (pytest; run in CI)
+CHANGELOG.md
 ```
+
+## Developing the plugin
+
+- Change the plugin only in this repository, on `dev`. Run `python -m pytest tests -q` (also runs in CI on every push).
+- Try changes in a separate test project: `/plugin marketplace add chaewoon11/foundry#dev`, `/plugin install foundry@sci-workflows`; after pushing, `/plugin marketplace update sci-workflows` and `/plugin update foundry@sci-workflows`, then `/reload-plugins`. Locally, `claude --plugin-dir ./plugins/foundry` loads the files directly.
+- `plugin.json` carries no `version` while on `dev`, so every push is picked up. A release sets the version, adds a CHANGELOG entry, and merges `dev` into `main`.
 
 ## References
 
