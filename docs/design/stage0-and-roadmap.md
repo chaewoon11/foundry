@@ -43,6 +43,7 @@ request
   foundry/<code>/
     foundry.json                      code name, source paths, features (name, level, depends_on)
     goal.md                           0a: what the user wants to compute and why; inputs, outputs, conventions
+    sources/                          papers and notes the user provides (readable by all agents)
     roadmap.md                        0c: features, order, dependencies, levels, one-line scope each
     theory/
       theory.md                       0b: conventions, physical picture, approximations, derivation down to the
@@ -64,9 +65,15 @@ A code without `features/` (today's layout) keeps working as a single implicit f
 ### 0a. Goal (chat, orchestrator only)
 What the user wants to compute and why; inputs and outputs; units and conventions; what exists already. The orchestrator writes `goal.md` and confirms it in one message. No briefing items.
 
+**Papers and notes the user provides** are reviewed together here (they go to `foundry/<code>/sources/`, readable by every agent): the method, the key equations, the conventions (units, signs, normalisations), what the paper leaves out or states ambiguously, and the **figures and tables worth reproducing**. `goal.md` records, per source, what is taken from it. Uses downstream:
+- the theorist starts from these sources; the ambiguous points become checks for the theory-checker;
+- reproducible figures and tables become reference values for ⑥ external-reference (or ① analytic) tests, e.g. "reproduce Fig. 3 of …";
+- what the sources cover vs. what the user wants beyond them informs the feature split (0c).
+Caution: a typo or sign error in a paper passes to the theorist and a checker reading the same paper alike. The checker therefore re-derives from other sources or symbolically where it can, and reproduction tests against the paper's own numbers help expose such errors.
+
 ### 0b. Theory (two agents + one briefing)
 - **`foundry:theorist`** (new agent) writes `theory.md` and `claims.md` from `goal.md` and the literature: conventions first, the physical picture, the approximations and why, the derivation down to the linear-algebra (or other numerical) problem, exactly solvable limits and analytic cases, symmetries, references. Every equation the code will rely on becomes a numbered claim.
-- **`foundry:theory-checker`** (new agent) sees `goal.md` and `claims.md` — **not** the theorist's derivations — re-derives each claim from the literature, and checks symbolically where possible (sympy): sign rules, symmetry properties, analytic cases against the matrix formulas. Output in `theory/checks/`: per claim `agrees` / `disagrees` / `not checkable`, with the derivation.
+- **`foundry:theory-checker`** (new agent) sees `goal.md` and `claims.md` — **not** the theorist's derivations — re-derives each claim from the literature (other sources than the theorist's where possible), and checks symbolically where possible (sympy): sign rules, symmetry properties, analytic cases against the matrix formulas. Output in `theory/checks/`: per claim `agrees` / `disagrees` / `not checkable`, with the derivation.
 - **Briefing** (`foundry:brief`, page `pages/theory.html` in lab-meeting style): the picture and derivation first; then the user's decisions only — the modelling approximations (e.g. two-centre, orthogonal basis) and every claim the checker disputed. Agent-domain items (derivable steps) go in the grouped list.
 - Barriers: theory files contain no code content; all agents may read them. Only the theorist writes `theory.md`/`claims.md`; only the checker writes `checks/`.
 

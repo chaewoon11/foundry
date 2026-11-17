@@ -52,9 +52,11 @@ flowchart TD
   U(["User: /foundry:start + what to build"]):::user
 
   subgraph ST0["0 · Understand before building — proposed, not built yet"]
-    G0["0a Goal (chat)<br/>what to compute and why · inputs, outputs, units"]:::proposed
+    PAP[/"Papers, notes, existing code<br/>given by the user"/]:::user
+    G0["0a Goal (chat)<br/>what to compute and why · inputs, outputs, units<br/>review the given papers together:<br/>method, equations, conventions,<br/>figures and tables to reproduce"]:::proposed
+    PAP --> G0
     TH["0b theorist<br/>theory the code implements: conventions, physical picture,<br/>approximations, derivation down to the numerical problem,<br/>solvable limits, symmetries · numbered claims"]:::proposed
-    CK["0b theory-checker<br/>re-derives each claim independently,<br/>symbolic checks (sympy)"]:::proposed
+    CK["0b theory-checker<br/>re-derives each claim independently,<br/>from other sources where possible,<br/>symbolic checks (sympy)"]:::proposed
     BT[/"0b Briefing: theory page, lab-meeting style<br/>user understands it, decides approximations and disputed claims"/]:::proposed
     FE["0c Features (chat)<br/>order · dependencies · level each"]:::proposed
     G0 --> TH --> CK --> BT --> FE
