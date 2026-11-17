@@ -1,156 +1,136 @@
 <title>foundry Workflow Map</title>
 <meta name="claude:viewport-fit-sides" content="cover">
-<link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap">
 <style>
-/* Layout: one narrow reading column; the run is drawn top-to-bottom as a chain of stage plates so it reads on a phone. */
+/* Layout: one reading column; each diagram sits on its own light panel that scrolls sideways on a phone. */
 :root {
   --bg: #f6f6f3; --surface: #ffffff; --ink: #1d1e22; --ink-2: #4d5058; --muted: #868a93; --rule: #dfe0dc;
-  --accent: #2f5fd0; --user: #b0561a; --agent: #2f5fd0; --gate: #19865c; --loop: #c23d3d; --soft: #eef0f5;
+  --accent: #2f5fd0; --ok: #19865c; --no: #c23d3d;
   --display: "Space Grotesk", "Inter", system-ui, sans-serif;
   --text: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
   --mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
 }
 @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
   --bg: #15161a; --surface: #1d1f24; --ink: #eceef2; --ink-2: #b9bcc5; --muted: #858a96; --rule: #31343c;
-  --accent: #7ea2ff; --user: #f0995a; --agent: #7ea2ff; --gate: #4cc492; --loop: #f07a7a; --soft: #262a33; color-scheme: dark; } }
+  --accent: #7ea2ff; --ok: #4cc492; --no: #f07a7a; color-scheme: dark; } }
 :root[data-theme="dark"] {
   --bg: #15161a; --surface: #1d1f24; --ink: #eceef2; --ink-2: #b9bcc5; --muted: #858a96; --rule: #31343c;
-  --accent: #7ea2ff; --user: #f0995a; --agent: #7ea2ff; --gate: #4cc492; --loop: #f07a7a; --soft: #262a33; color-scheme: dark; }
-
+  --accent: #7ea2ff; --ok: #4cc492; --no: #f07a7a; color-scheme: dark; }
 * { box-sizing: border-box; }
 body { background: var(--bg); color: var(--ink); font: 15px/1.55 var(--text);
        padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
-.wrap { max-width: 860px; margin: 0 auto; padding-block: 28px 64px; }
-h1, h2, h3 { font-family: var(--display); text-wrap: balance; margin: 0; }
+.wrap { max-width: 900px; margin: 0 auto; padding-block: 28px 64px; }
+h1, h2 { font-family: var(--display); text-wrap: balance; margin: 0; }
 h1 { font-size: 1.9rem; letter-spacing: -.01em; }
 h2 { font-size: 1.25rem; margin: 40px 0 6px; }
-.lead { color: var(--ink-2); margin: 8px 0 0; max-width: 62ch; }
-.sub { color: var(--muted); margin: 0 0 16px; font-size: .92rem; }
-code, .mono { font-family: var(--mono); font-size: .86em; }
-.legend { display: flex; flex-wrap: wrap; gap: 8px 16px; margin: 16px 0 0; font-size: .85rem; color: var(--ink-2); }
-.dot { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 6px; vertical-align: 0; }
-
-/* stage chain */
-.chain { display: grid; gap: 0; margin-top: 8px; }
-.stage { background: var(--surface); border: 1px solid var(--rule); border-radius: 10px; padding: 14px 16px; display: grid;
-         grid-template-columns: 44px 1fr; gap: 4px 12px; }
-.stage .num { grid-row: span 3; font-family: var(--display); font-weight: 700; font-size: 1.6rem; color: var(--accent); line-height: 1; }
-.stage h3 { font-size: 1.05rem; }
-.stage h3 .skill { font-family: var(--mono); font-weight: 400; font-size: .8rem; color: var(--muted); margin-left: 6px; }
-.rows { display: grid; grid-template-columns: max-content 1fr; gap: 3px 10px; font-size: .9rem; min-width: 0; }
-.rows dt { color: var(--muted); font-size: .78rem; text-transform: uppercase; letter-spacing: .05em; padding-top: 2px; }
-.rows dd { margin: 0; min-width: 0; }
-.who-agent { color: var(--agent); font-weight: 600; }
-.who-user { color: var(--user); font-weight: 600; }
-.gate { color: var(--gate); font-weight: 600; }
-.link { display: flex; align-items: center; gap: 10px; padding: 6px 0 6px 21px; color: var(--muted); font-size: .82rem; }
-.link::before { content: ""; width: 2px; height: 26px; background: var(--rule); }
-.loop { border-left: 3px solid var(--loop); padding: 6px 12px; margin: 6px 0; color: var(--ink-2); font-size: .88rem; background: var(--soft); border-radius: 0 8px 8px 0; }
-.loop b { color: var(--loop); }
-.stage0 { border: 1px dashed var(--muted); border-radius: 10px; padding: 10px 16px; color: var(--muted); font-size: .88rem; }
-.stage0 b { color: var(--ink-2); }
-
-/* matrix */
+.lead { color: var(--ink-2); margin: 8px 0 0; max-width: 64ch; }
+.sub { color: var(--muted); margin: 0 0 14px; font-size: .92rem; max-width: 70ch; }
+code { font-family: var(--mono); font-size: .86em; }
+/* Diagrams keep a light panel in both themes so Mermaid's default colours stay readable. */
+.diagram { background: #ffffff; color-scheme: light; border: 1px solid var(--rule); border-radius: 12px; padding: 16px; overflow-x: auto; }
+.diagram pre.mermaid { margin: 0; background: transparent; min-width: 520px; text-align: center; }
 .scroll { overflow-x: auto; }
-table { border-collapse: collapse; width: 100%; font-size: .88rem; background: var(--surface); border: 1px solid var(--rule); border-radius: 10px; }
+table { border-collapse: collapse; width: 100%; font-size: .88rem; background: var(--surface); border: 1px solid var(--rule); }
 th, td { padding: 7px 9px; border-bottom: 1px solid var(--rule); text-align: center; white-space: nowrap; }
 th:first-child, td:first-child { text-align: left; }
 thead th { font-size: .74rem; text-transform: uppercase; letter-spacing: .04em; color: var(--muted); font-weight: 600; }
-td.w { color: var(--gate); font-weight: 600; } td.r { color: var(--ink-2); } td.x { color: var(--loop); font-weight: 600; }
-td.c { color: var(--accent); }
-
-/* briefing steps */
-.steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; }
-.step { background: var(--surface); border: 1px solid var(--rule); border-radius: 10px; padding: 12px; font-size: .88rem; min-width: 0; }
-.step .k { font-family: var(--display); font-weight: 700; color: var(--accent); }
-.step p { margin: 4px 0 0; color: var(--ink-2); }
-
-.cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 10px; }
-.card { background: var(--surface); border: 1px solid var(--rule); border-radius: 10px; padding: 14px; min-width: 0; }
-.card h3 { font-size: .98rem; } .card p { margin: 6px 0 0; color: var(--ink-2); font-size: .9rem; }
-pre { background: var(--surface); border: 1px solid var(--rule); border-radius: 10px; padding: 14px; overflow-x: auto; font: 13px/1.6 var(--mono); color: var(--ink-2); margin: 0; }
-pre b { color: var(--ink); font-weight: 500; }
+td.w { color: var(--ok); font-weight: 600; } td.r { color: var(--ink-2); } td.x { color: var(--no); font-weight: 600; } td.c { color: var(--accent); }
+pre.tree { background: var(--surface); border: 1px solid var(--rule); border-radius: 12px; padding: 14px; overflow-x: auto; font: 13px/1.6 var(--mono); color: var(--ink-2); margin: 0; }
+pre.tree b { color: var(--ink); font-weight: 500; }
 footer { margin-top: 44px; color: var(--muted); font-size: .82rem; }
-a { color: var(--accent); }
 </style>
 
 <div class="wrap">
   <h1>foundry workflow map</h1>
-  <p class="lead">How one run of the plugin goes today (dev branch, with the big-picture briefing and "who decides what"): the stages, who works in each, what the user does, what ends a stage, and who may see what.</p>
-  <div class="legend">
-    <span><span class="dot" style="background:var(--user)"></span>user</span>
-    <span><span class="dot" style="background:var(--agent)"></span>agent</span>
-    <span><span class="dot" style="background:var(--gate)"></span>ends the stage</span>
-    <span><span class="dot" style="background:var(--loop)"></span>goes back</span>
-  </div>
+  <p class="lead">How one run of the plugin goes today (dev branch, with the big-picture briefing and "who decides what"). Orange = the user, blue = agents, green = what ends a stage, red dashed = going back. The dashed grey box is the proposed stage 0, not built yet.</p>
 
   <h2>1. One run</h2>
-  <p class="sub">Started with <code>/foundry:start</code> or "foundry로 ~ 하자". The orchestrator (the main session) moves to the next stage by itself after each approval.</p>
+  <p class="sub">Started with <code>/foundry:start</code> or "foundry로 ~ 하자". The orchestrator (the main session) moves on by itself after each approval.</p>
+  <div class="diagram">
+<pre class="mermaid">
+flowchart TD
+  U(["User: /foundry:start + what to build"]):::user
+  S0["Stage 0 — proposed<br/>goal · theory review · features"]:::proposed
+  INIT["foundry-init<br/>creates foundry/CODE"]
+  U -.-> S0 -.-> INIT
+  U --> INIT
 
-  <div class="chain">
-    <div class="stage0"><b>Not built yet — proposed stage 0:</b> goal → theory review (with an independent re-derivation) → split into features. See the design draft.</div>
-    <div class="link">user describes the code · <code>foundry-init</code> creates <code>foundry/&lt;code&gt;/</code></div>
+  subgraph ST1["1 · Spec"]
+    SW["spec-writer<br/>model · terms · project · overview"]:::agent
+    LV{{"User picks level<br/>L1 · L2 · L3"}}:::user
+    AC["spec-writer<br/>acceptance criteria"]:::agent
+    B1[/"Briefing: spec page,<br/>user questions + agent-decision list"/]:::user
+    SW --> LV --> AC --> B1
+  end
+  INIT --> SW
 
-    <div class="stage">
-      <div class="num">1</div>
-      <h3>Spec <span class="skill">foundry:spec</span></h3>
-      <dl class="rows">
-        <dt>Work</dt><dd>main choices agreed in chat → <span class="who-agent">spec-writer</span> drafts model, terms, project contract, overview → <span class="who-user">user picks the level</span> (L1 / L2 / L3) → criteria</dd>
-        <dt>User</dt><dd><span class="who-user">briefing:</span> page first (big picture), then only the user's questions + one list of agent decisions</dd>
-        <dt>Ends</dt><dd><span class="gate">spec/REVIEW.md approved</span>, scripts in place</dd>
-      </dl>
-    </div>
-    <div class="link">automatic</div>
+  subgraph ST2["2 · Tests & oracle (in parallel, from the spec only)"]
+    TD["test-designer<br/>rules · public · holdout"]:::agent
+    OR["oracle<br/>reference implementation"]:::agent
+  end
+  B1 -->|approved| TD
+  B1 -->|approved| OR
+  B2[/"Briefing: test rules on the page"/]:::user
+  TD --> B2
+  OR --> B2
 
-    <div class="stage">
-      <div class="num">2</div>
-      <h3>Tests &amp; oracle <span class="skill">foundry:design-tests</span></h3>
-      <dl class="rows">
-        <dt>Work</dt><dd><span class="who-agent">test-designer</span> writes test rules, public and holdout cases · <span class="who-agent">oracle</span> writes a slow, obviously-correct reference (L2 optional, L3 required) — in parallel, from the spec only</dd>
-        <dt>User</dt><dd><span class="who-user">briefing:</span> the page's verification map now shows the real rules; user's questions + agent decisions</dd>
-        <dt>Ends</dt><dd><span class="gate">tests/REVIEW.md approved</span></dd>
-      </dl>
-    </div>
-    <div class="link">automatic</div>
+  DEV["3 · developer<br/>main code, in place"]:::agent
+  B2 -->|approved| DEV
+  AUD["4 · auditor<br/>coverage · mutation · holdout"]:::agent
+  DEV -->|public tests pass| AUD
+  REP["5 · auditor<br/>report + verified commit"]:::agent
+  AUD -->|PASS| REP
+  B3[/"Briefing: report"/]:::user
+  REP --> B3
+  DONE(["Run complete"]):::gate
+  B3 -->|approved| DONE
 
-    <div class="stage">
-      <div class="num">3</div>
-      <h3>Develop <span class="skill">foundry:develop</span></h3>
-      <dl class="rows">
-        <dt>Work</dt><dd><span class="who-agent">developer</span> writes the main code in place and iterates on the public tests; cannot edit tests; each fixed bug leaves a regression test</dd>
-        <dt>User</dt><dd>nothing, unless a spec issue comes up</dd>
-        <dt>Ends</dt><dd><span class="gate">public tests pass</span></dd>
-      </dl>
-    </div>
-    <div class="loop"><b>Spec issue</b> (any agent finds the spec unclear or wrong) → run stops → user decides → spec updated → the affected stage is redone.</div>
-    <div class="link">automatic</div>
+  AUD -. "FAIL-COVERAGE / FAIL-MUTATION" .-> TD
+  AUD -. "FAIL-HOLDOUT" .-> DEV
+  ISS{{"Spec issue<br/>run stops, user decides"}}:::back
+  TD -. unclear spec .-> ISS
+  OR -. unclear spec .-> ISS
+  DEV -. unclear spec .-> ISS
+  ISS -. spec updated .-> SW
 
-    <div class="stage">
-      <div class="num">4</div>
-      <h3>Audit <span class="skill">foundry:audit</span></h3>
-      <dl class="rows">
-        <dt>Work</dt><dd><span class="who-agent">auditor</span> checks the test set: coverage (every term exercised), mutation testing (planted bugs caught), holdout (unseen tests pass)</dd>
-        <dt>User</dt><dd>decides only if the verdict is a failure</dd>
-        <dt>Ends</dt><dd><span class="gate">verdict PASS</span></dd>
-      </dl>
-    </div>
-    <div class="loop"><b>FAIL-COVERAGE / FAIL-MUTATION</b> → strengthen tests (stage 2), then 3 and 4 again. <b>FAIL-HOLDOUT</b> → fix code (stage 3), then 4 again.</div>
-    <div class="link">automatic</div>
-
-    <div class="stage">
-      <div class="num">5</div>
-      <h3>Report <span class="skill">foundry:report</span></h3>
-      <dl class="rows">
-        <dt>Work</dt><dd><span class="who-agent">auditor</span> writes the report: criteria vs measured values, code walkthrough, limits, verified commit</dd>
-        <dt>User</dt><dd><span class="who-user">briefing</span> on the same page, now with results</dd>
-        <dt>Ends</dt><dd><span class="gate">audit/REVIEW.md approved</span> — run complete</dd>
-      </dl>
-    </div>
+  classDef user fill:#fff1e6,stroke:#b0561a,stroke-width:2px,color:#3a1d08
+  classDef agent fill:#eaf0ff,stroke:#2f5fd0,stroke-width:2px,color:#0f2155
+  classDef gate fill:#e6f6ee,stroke:#19865c,stroke-width:2px,color:#0b3a26
+  classDef back fill:#fdecec,stroke:#c23d3d,stroke-width:2px,color:#4a1010
+  classDef proposed fill:#f4f4f4,stroke:#9a9a9a,stroke-dasharray:5 4,color:#666666
+</pre>
   </div>
 
-  <h2>2. Who may see what</h2>
-  <p class="sub">Enforced by a hook on every file and shell call of an agent, not just asked for in prompts. The orchestrator is not restricted.</p>
+  <h2>2. A briefing</h2>
+  <p class="sub">The same shape in stages 1, 2 and 5. Only questions without a correct answer go to the user; derivable choices come as one list.</p>
+  <div class="diagram">
+<pre class="mermaid">
+sequenceDiagram
+  autonumber
+  participant A as Author agent
+  participant O as Orchestrator
+  participant U as User
+  participant R as REVIEW.md
+  A->>O: documents, overview, item list
+  O->>U: page with the big picture (no approval)
+  O->>U: anything odd or missing?
+  loop each user question
+    O->>U: question, pointing to its slide
+    U->>O: answer
+    O->>R: record answer verbatim
+  end
+  O->>U: agent decisions as one list
+  U->>O: approve, or veto single lines
+  O->>A: all changes at once
+  A->>O: revised documents
+  O->>U: re-brief what changed
+  U->>O: approve the review
+  O->>R: APPROVED (a hook refuses if anything is open)
+</pre>
+  </div>
+
+  <h2>3. Who may see what</h2>
+  <p class="sub">Enforced by a hook on every file and shell call of an agent. The orchestrator is not restricted. Why: if one model writes code and tests from the same reading, one misunderstanding ends up in both and they agree.</p>
   <div class="scroll">
     <table>
       <thead><tr><th>agent</th><th>spec</th><th>main code</th><th>public tests</th><th>holdout · generators</th><th>oracle</th><th>audit details</th></tr></thead>
@@ -163,28 +143,9 @@ a { color: var(--accent); }
       </tbody>
     </table>
   </div>
-  <p class="sub" style="margin-top:8px">Why: if the same model writes code and tests from the same reading, one misunderstanding ends up in both and they agree. The developer's shell is limited to build, public tests and a narrow git.</p>
 
-  <h2>3. A briefing</h2>
-  <p class="sub">The same shape in stages 1, 2 and 5. Decisions are recorded at once in a REVIEW.md file next to the documents.</p>
-  <div class="steps">
-    <div class="step"><span class="k">Page</span><p>Big picture as an HTML page: conventions, problem, algorithm, code structure, verification map, scope, decisions. No approval.</p></div>
-    <div class="step"><span class="k">Check</span><p>"Anything odd or missing in this picture?"</p></div>
-    <div class="step"><span class="k">User's questions</span><p>Only questions with no correct answer: purpose, scope, API, trade-offs, the level. One per message.</p></div>
-    <div class="step"><span class="k">Agent decisions</span><p>Derivable choices (formulas, derived tolerances, conventions) as one list; veto any line.</p></div>
-    <div class="step"><span class="k">Approve</span><p>Changes re-briefed, then the whole review approved. A hook refuses while anything is open.</p></div>
-  </div>
-
-  <h2>4. The pieces behind it</h2>
-  <div class="cards">
-    <div class="card"><h3>Hooks</h3><p><b>guard</b>: the table above, per role and per code. <b>review gate</b>: no approval with open items; agents cannot write decisions; no shell edits of REVIEW.md. <b>session start</b>: status and orchestrator rules in every new session.</p></div>
-    <div class="card"><h3>Verification levels</h3><p><b>L1</b> analytic + transformation tests, no holdout, no oracle, no mutation. <b>L2</b> + consistency and order or oracle, some holdout, mutation on key terms ≥ 70 %. <b>L3</b> everything, ≥ 90 %.</p></div>
-    <div class="card"><h3>Test kinds</h3><p>① analytic · ② transformations · ③ two routes, same answer · ④ convergence order · ⑤ oracle / manufactured · ⑥ community data. Rules, not hand-picked cases.</p></div>
-    <div class="card"><h3>Resuming</h3><p>No state file: the stage is read from the files. "Let's continue" in a new session picks up where the run stopped; agents keep progress notes.</p></div>
-  </div>
-
-  <h2>5. Files in a project</h2>
-<pre><b>&lt;project&gt;/</b>
+  <h2>4. Files in a project</h2>
+<pre class="tree"><b>&lt;project&gt;/</b>
   &lt;main code&gt;                  developed in place
   <b>foundry/&lt;code&gt;/</b>
     foundry.json              code name, main-code paths, level
