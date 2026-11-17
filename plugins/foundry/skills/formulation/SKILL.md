@@ -31,7 +31,7 @@ A good frame fits on one screen: typically 3–8 steps.
 4. When the user agrees with the frame, 0c ends. Commit and move on to 0d (`theory-check`).
 
 ## `formulation.md`
-```
+````markdown
 # Formulation: <code>
 
 ## Conventions
@@ -60,4 +60,4 @@ write output                                # step —
 ## Notes for later
 - 0d: <derivation points raised in the discussion>
 - Stage 1: <numerical-method points raised in the discussion>
-```
+````
